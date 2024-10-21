@@ -1,0 +1,13 @@
+
+{
+  "name": "my-electron-app",
+  "version": "1.0.0",
+  "description": "A minimal Electron app using Yarn",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^25.3.0"
+  }
+}
