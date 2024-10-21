@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Electron / Node.js dependencies
+node_modules/
+
+# Flask env
+.env
+
+# macOS
+.DS_Store
+
+# Linux Trash folder
+.Trash-*
+
+# Python logs
+*.log
