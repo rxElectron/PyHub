@@ -14,26 +14,26 @@ This project integrates a **Flask backend** with an **Electron frontend** for a 
 
 Install the Flask dependencies:
 
-bash
+```
 pip install -r requirements.txt
-
+```
 
 ### Install Electron Dependencies
 
 Navigate to the `electron_app` directory and install dependencies:
 
-bash
+```
 cd electron_app
 npm install
-
+```
 
 ### Running the Project
 
 1. Start the Flask server:
 
-bash
+```
 python app.py
-
+```
 
 2. You will be prompted to either use the app in a browser or launch the Electron app.
 
