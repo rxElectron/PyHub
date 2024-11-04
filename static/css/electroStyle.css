@@ -1,0 +1,137 @@
+
+#welcome-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 3.5rem;
+  color: #78928D;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  overflow: hidden;
+  border-right: .15em solid #0984e3;
+  white-space: nowrap;
+  letter-spacing: .15em;
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #0984e3 }
+}
+
+#journey-text, #support-text {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.8rem;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+#journey-text {
+  color: #154F48;
+  /* color: #00b894; */
+  font-weight: 500;
+}
+
+#support-text {
+  color: #154F48;
+  /* color: #0984e3; */
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  #welcome-title {
+    font-size: 2.5rem;
+  }
+  
+  #journey-text, #support-text {
+    font-size: 1.4rem;
+  }
+}
+
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* .on-off {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.on-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #154F48;
+  background-color: #0984e3;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.on-btn:hover {
+  background-color: #0773c5;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+} */
