@@ -1,20 +1,21 @@
 # PyHub Project
 
-PyHub integrates a **Flask backend** with an **Electron frontend** to create a seamless, cross-platform application that works both in-browser and as a desktop app. This setup allows you to leverage the power of Python for backend processing and JavaScript for a dynamic user interface.
+PyHub integrates a Flask backend with an Electron frontend to create a seamless, cross-platform application that works both in-browser and as a desktop app. This setup allows you to leverage the power of Python for backend processing and JavaScript for a dynamic user interface.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-Before diving in, ensure you have the following installed:
-
 - **Python 3.x** - for the backend logic
-- **Node.js** and **npm** - for managing the Electron application
+- **Node.js and npm** - for managing the Electron application
 - **Yarn** (optional) - for faster and reliable dependency management
 
 ### Download Python
 
 Here are the updated download links for the latest Python releases as of November 4, 2024:
+
+<details>
+  <summary><strong>Click to expand Python Download Links</strong></summary>
 
 | **Release Type**   | **Version**     | **Release Date** | **Download Links**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ------------------ | --------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -22,7 +23,12 @@ Here are the updated download links for the latest Python releases as of Novembe
 | **Stable Release** | Python 3.12.7   | Oct. 1, 2024     | [Installer (64-bit)](https://www.python.org/ftp/python/3.12.7/python-3.12.7-amd64.exe), [Installer (32-bit)](https://www.python.org/ftp/python/3.12.7/python-3.12.7.exe), [Installer (ARM64)](https://www.python.org/ftp/python/3.12.7/python-3.12.7-arm64.exe), [Embeddable Package (64-bit)](https://www.python.org/ftp/python/3.12.7/python-3.12.7-embed-amd64.zip), [Embeddable Package (32-bit)](https://www.python.org/ftp/python/3.12.7/python-3.12.7-embed-win32.zip), [Embeddable Package (ARM64)](https://www.python.org/ftp/python/3.12.7/python-3.12.7-embed-arm64.zip)             |
 | **Pre-release**    | Python 3.14.0a1 | Oct. 15, 2024    | [Installer (64-bit)](https://www.python.org/ftp/python/3.14.0/python-3.14.0a1-amd64.exe), [Installer (32-bit)](https://www.python.org/ftp/python/3.14.0/python-3.14.0a1.exe), [Installer (ARM64)](https://www.python.org/ftp/python/3.14.0/python-3.14.0a1-arm64.exe), [Embeddable Package (64-bit)](https://www.python.org/ftp/python/3.14.0/python-3.14.0a1-embed-amd64.zip), [Embeddable Package (32-bit)](https://www.python.org/ftp/python/3.14.0/python-3.14.0a1-embed-win32.zip), [Embeddable Package (ARM64)](https://www.python.org/ftp/python/3.14.0/python-3.14.0a1-embed-arm64.zip) |
 
+</details>
+
 For macOS users:
+
+<details>
+  <summary><strong>Click to expand macOS Download Links</strong></summary>
 
 | **Release Type**   | **Version**     | **Release Date** | **Download Links**                                                                                           |
 | ------------------ | --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ |
@@ -30,9 +36,12 @@ For macOS users:
 | **Stable Release** | Python 3.12.7   | Oct. 1, 2024     | [macOS 64-bit universal2 installer](https://www.python.org/ftp/python/3.12.7/python-3.12.7-macosx10.9.pkg)   |
 | **Pre-release**    | Python 3.14.0a1 | Oct. 15, 2024    | [macOS 64-bit universal2 installer](https://www.python.org/ftp/python/3.14.0/python-3.14.0a1-macosx10.9.pkg) |
 
+</details>
+
 For Linux/UNIX users, it's recommended to install Python using your distribution's package manager.
 
-**Package Manager Commands:**
+<details>
+  <summary><strong>Click to expand Package Manager Commands</strong></summary>
 
 | **Package Manager**     | **Command**                                   |
 | ----------------------- | --------------------------------------------- |
@@ -41,9 +50,14 @@ For Linux/UNIX users, it's recommended to install Python using your distribution
 | **apt (Debian/Ubuntu)** | `sudo apt update && sudo apt install python3` |
 | **pacman (Arch Linux)** | `sudo pacman -S python`                       |
 
+</details>
+
 For detailed installation guides and more information, visit the [official Python downloads page](https://www.python.org/downloads/).
 
 ### Installation Guides
+
+<details>
+  <summary><strong>Click to expand Installation Guides</strong></summary>
 
 | **Tool**            | **Installation Guide**                                                                                                           |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -51,6 +65,8 @@ For detailed installation guides and more information, visit the [official Pytho
 | **pip**             | [Install pip, the Python package manager](https://pip.pypa.io/en/stable/installation/).                                          |
 | **Node.js & npm**   | [Install Node.js and npm](https://nodejs.org/en/download/package-manager).                                                       |
 | **Yarn** (Optional) | [Install Yarn for a smoother dependency management experience](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable). |
+
+</details>
 
 ## 📦 Installation
 
@@ -83,15 +99,11 @@ For detailed installation guides and more information, visit the [official Pytho
 
 ### Step 1: Start the Flask Backend
 
-Run the Flask server by executing:
-
 ```sh
 python app.py
 ```
 
 ### Step 2: Choose Your Interface
-
-Once the backend is running, you have two options for the frontend:
 
 - **Browser Mode**: Open your browser and navigate to the URL shown in the terminal.
 - **Electron App Mode**: Run the Electron app by selecting "Yes" when prompted in the dialog or by executing the start command within the `electron_app` directory:
@@ -109,8 +121,6 @@ Once the backend is running, you have two options for the frontend:
 
 ## 🛠 Debugging Tools
 
-The **Debug Module** helps you troubleshoot issues effectively, offering:
-
 - **Logging & Error Tracking**: View application logs and errors.
 - **Performance Profiling**: Analyze performance bottlenecks.
 - **Variable Inspection & Breakpoint Management**: Dive into variable values and control the flow.
@@ -121,45 +131,8 @@ To access these features, simply navigate to the **Debug** section within the ap
 
 Thanks to all the contributors and open-source libraries that made this project possible. Special shoutout to the developers of **Flask** and **Electron** for enabling rapid cross-platform development!
 
-## 📑 Node Management Setup
-
-To manage Node.js versions, you can use **nvm** (Node Version Manager) or **fnm** (Fast Node Manager). Below are instructions for setting up both tools on different systems.
-
-1. Install **nvm** (Node Version Manager):
-   ```sh
-   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
-   ```
-2. Download and install Node.js (you may need to restart the terminal):
-   ```sh
-   nvm install 22
-   ```
-3. Verify the installed Node.js and npm versions:
-   ```sh
-   node -v # should print `v22.11.0`
-   npm -v  # should print `10.9.0`
-   ```
-
-#### Linux/macOS
-
-1. Install **fnm**:
-   ```sh
-   curl -fsSL https://fnm.vercel.app/install | bash
-   ```
-2. Activate **fnm**:
-   ```sh
-   source ~/.bashrc
-   ```
-3. Download and install Node.js:
-   ```sh
-   fnm use --install-if-missing 22
-   ```
-4. Verify the installed Node.js and npm versions:
-   ```sh
-   node -v # should print `v22.11.0`
-   npm -v  # should print `10.9.0`
-   ```
-
-#### Windows
+<details>
+  <summary><strong>Click to expand Node Management Setup (continued for Windows)</strong></summary>
 
 1. Install **fnm** via **winget**:
    ```sh
@@ -179,7 +152,12 @@ To manage Node.js versions, you can use **nvm** (Node Version Manager) or **fnm*
    npm -v  # should print `10.9.0`
    ```
 
+</details>
+
 ## 🧶 Yarn Setup
+
+<details>
+  <summary><strong>Click to expand Yarn Setup</strong></summary>
 
 Before using Yarn, ensure it is installed on your system. There are multiple ways to install Yarn:
 
@@ -215,7 +193,12 @@ For Fish shell users:
 set -U fish_user_paths (yarn global bin) $fish_user_paths
 ```
 
+</details>
+
 ## 🐍 Installing pip in Python Environment
+
+<details>
+  <summary><strong>Click to expand pip Installation Instructions</strong></summary>
 
 If your Python environment does not have **pip** installed, you can use one of the following methods:
 
@@ -242,6 +225,8 @@ To upgrade pip, run:
 ```sh
 python -m pip install --upgrade pip
 ```
+
+</details>
 
 ## 📄 License
 
