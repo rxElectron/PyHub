@@ -58,7 +58,7 @@ For detailed installation guides and more information, visit the [official Pytho
 
 1. Clone the repository and navigate to the project directory.
    ```sh
-   git clone https://github.com/username/pyhub.git
+   git clone https://github.com/rxElectron/PyHub.git
    cd pyhub
    ```
 2. Install the required Python dependencies:
