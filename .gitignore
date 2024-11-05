@@ -7,6 +7,7 @@ __pycache__/
 
 # Electron / Node.js dependencies
 node_modules/
+DIAGRAMS/
 
 # Flask env
 .env
@@ -102,3 +103,4 @@ __pycache__/
 *.gz
 *.tar
 *.tgz
+
