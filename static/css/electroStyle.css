@@ -1,21 +1,25 @@
-
 #welcome-title {
   font-family: 'Roboto', sans-serif;
-  font-size: 3.5rem;
-  color: #78928D;
-  margin-bottom: 1.5rem;
+  /* font-size: 3.5rem; */
+  /* color: #78928D; */
+  /* margin-bottom: 1.5rem; */
   text-align: center;
   overflow: hidden;
   border-right: .15em solid #0984e3;
   white-space: nowrap;
-  letter-spacing: .15em;
+  /* letter-spacing: .15em; */
+  background: linear-gradient(90deg, rgba(41, 139, 127, 0.61) 0%, rgba(203, 203, 203, 0.61) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
   animation: 
-    typing 3.5s steps(40, end),
+    typing 3.314s steps(40, end),
     blink-caret .75s step-end infinite;
 }
 
 #Logo-title {
-font-family: 'Inter', sans-serif;
+font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 700;
 font-size: 2rem;
@@ -39,22 +43,39 @@ color: transparent;
 }
 
 #journey-text, #support-text {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.8rem;
-  margin: 1rem 0;
-  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  /* font-size: 1.8rem;
+  margin: 1rem 0; */
+  /* text-align: center; */
 }
 
 #journey-text {
-  color: #154F48;
+  /* color: #154F48; */
   /* color: #00b894; */
-  font-weight: 500;
+  color: #898B8A;
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  white-space: nowrap;
+  background-clip: text;
+  text-fill-color: transparent;
+  animation: 
+    typing 1.314s steps(40, end),
+    blink-caret .75s step-end;
 }
 
 #support-text {
-  color: #154F48;
+  /* color: #154F48; */
   /* color: #0984e3; */
-  font-weight: 500;
+  color: #898B8A;
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  white-space: nowrap;
+  background-clip: text;
+  text-fill-color: transparent;
+  animation: 
+    typing 2.314s steps(40, end),
+    blink-caret .75s step-end;
 }
 
 @media (max-width: 768px) {
@@ -109,15 +130,18 @@ color: transparent;
 }
 
 .animate-bounce {
-  animation: bounce 1s infinite;
+  /* animation: bounce 1s infinite; */
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .animate-spin {
-  animation: spin 1s linear infinite;
+  /* animation: spin 1s linear infinite; */
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .animate-ping {
-  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  /* animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; */
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* .on-off {
