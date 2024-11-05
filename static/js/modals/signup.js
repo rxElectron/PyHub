@@ -16,6 +16,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const verifyPassword = document.getElementById('verify-password').value;
 
         // Basic Frontend Validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
+
+        if (!usernamePattern.test(username)) {
+            signupMessage.textContent = 'Username should be 3-20 characters and contain only letters, numbers, or underscores.';
+            signupMessage.classList.add('error');
+            return;
+        }
+
+        if (!emailPattern.test(email)) {
+            signupMessage.textContent = 'Please enter a valid email address.';
+            signupMessage.classList.add('error');
+            return;
+        }
+
         if (password !== verifyPassword) {
             signupMessage.textContent = 'Passwords do not match.';
             signupMessage.classList.add('error');
@@ -36,14 +51,13 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-            // Fetch CSRF token from cookie (if using Flask-WTF)
-            const csrfToken = getCookie('csrf_token'); // Ensure the CSRF token is set as a cookie
+            const csrfToken = getCookie('csrf_token');
 
-            const response = await fetch('/signup', {
+            const response = await fetch('https://0xelectron.ir/signup.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken // Include CSRF token in headers
+                    'X-CSRFToken': csrfToken
                 },
                 body: JSON.stringify(data)
             });
@@ -51,15 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
 
             if (response.ok) {
-                // Success
                 signupMessage.textContent = result.message || 'Signup successful!';
                 signupMessage.classList.add('success');
-                signupForm.reset(); // Clear the form
-
-                // Optionally, redirect the user
-                // window.location.href = '/dashboard';
+                signupForm.reset();
             } else {
-                // Server returned an error
                 signupMessage.textContent = result.error || 'An error occurred during signup.';
                 signupMessage.classList.add('error');
             }
@@ -70,11 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    /**
-     * Helper function to get a cookie's value by name.
-     * @param {string} name - The name of the cookie.
-     * @returns {string|null} - The cookie's value or null if not found.
-     */
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);

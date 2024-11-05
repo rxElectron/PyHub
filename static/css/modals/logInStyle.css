@@ -10,6 +10,61 @@
 body {
   font-family: "Inter", sans-serif;
 }
+
+
+/* .modal {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.modal-content {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  background-color: #222222;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1100; 
+} */
+
+.modal {
+  display: none; /* Hide by default */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.modal.visible {
+  display: flex; /* Only show when .visible is added */
+}
+
+.modal-content {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  background-color: #222222;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1100; /* Ensure it's above the overlay */
+}
+
+
 #loginModal button,
 #loginModal h3 {
   color: #e2e2e2;
@@ -91,55 +146,3 @@ body {
   background-color: #16564e;
 }
 
-
-/* .modal {
-  position: absolute;
-  display: flex;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 1050;
-}
-
-.modal-content {
-  display: block;
-  width: 100%;
-  max-width: 500px;
-  background-color: #222222;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 1100; 
-} */
-
-.modal {
-  display: none; /* Hide by default */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 1050;
-}
-
-.modal.visible {
-  display: flex; /* Only show when .visible is added */
-}
-
-.modal-content {
-  display: block;
-  width: 100%;
-  max-width: 500px;
-  background-color: #222222;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 1100; /* Ensure it's above the overlay */
-}

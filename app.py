@@ -12,6 +12,8 @@ from pathlib import Path
 import sys
 import signal
 import shutil
+import requests
+from flask import request, jsonify
 
 # ----------------------------
 # Configuration and Constants
@@ -57,7 +59,12 @@ logging.info("Application starting...")
 # Flask App Initialization
 # ----------------------------
 
+from flask_cors import CORS
+
 app = Flask(__name__)
+
+# Allow CORS for requests from your local server and the 0xelectron.ir domain
+CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5000", "https://0xelectron.ir"]}})
 
 # Load configurations from config.py
 try:
@@ -194,6 +201,13 @@ def shutdown_application(signum, frame):
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/proxy_to_https')
+def proxy_to_https():
+    user_ip = request.remote_addr
+    headers = {'X-Forwarded-For': user_ip}
+    response = requests.get("https://targetsite.com/api", headers=headers)
+    return jsonify(response.json())
 
 @app.route('/online')
 def online_features():
