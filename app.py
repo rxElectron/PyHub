@@ -8,77 +8,222 @@ from tkinter import messagebox
 from flask import Flask, render_template, redirect, url_for, jsonify
 import logging
 import os
+from pathlib import Path
+import sys
+import signal
+import shutil
 
-# Initialize the Flask app
+# ----------------------------
+# Configuration and Constants
+# ----------------------------
+
+# Define constants
+DEFAULT_HOST = "1.1.1.1"
+DEFAULT_PORT = 53
+DEFAULT_TIMEOUT = 3
+FLASK_PORT = 5000
+ELECTRON_APP_DIR = 'electron_app'
+CONFIG_MODULE = 'config.Config'
+
+# ----------------------------
+# Logging Configuration
+# ----------------------------
+
+def setup_logging():
+    """
+    Configures logging to output to both console and a file.
+    """
+    log_formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s')
+    log_file = Path(__file__).parent / "app.log"
+
+    # File handler
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(log_formatter)
+    file_handler.setLevel(logging.INFO)
+
+    # Console handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(log_formatter)
+    console_handler.setLevel(logging.INFO)
+
+    # Root logger
+    logging.basicConfig(level=logging.INFO, handlers=[file_handler, console_handler])
+
+# Initialize logging
+setup_logging()
+logging.info("Application starting...")
+
+# ----------------------------
+# Flask App Initialization
+# ----------------------------
+
 app = Flask(__name__)
 
 # Load configurations from config.py
-app.config.from_object('config.Config')
+try:
+    app.config.from_object(CONFIG_MODULE)
+    logging.info(f"Loaded configuration from {CONFIG_MODULE}.")
+except Exception as e:
+    logging.error(f"Failed to load configuration from {CONFIG_MODULE}: {e}")
+    sys.exit(1)
 
-# Register blueprints (assuming they are properly defined in your app folder)
-from app.debug.routes import debug_bp
-from app.explore.routes import explore_bp
+# Register blueprints
+try:
+    from app.debug.routes import debug_bp
+    from app.explore.routes import explore_bp
 
-app.register_blueprint(debug_bp)
-app.register_blueprint(explore_bp)
+    app.register_blueprint(debug_bp)
+    app.register_blueprint(explore_bp)
+    logging.info("Registered blueprints: debug_bp, explore_bp.")
+except ImportError as e:
+    logging.error(f"Failed to import blueprints: {e}")
+    sys.exit(1)
 
-# Function to check internet connection
-def is_connected(host="1.1.1.1", port=53, timeout=3):
+# ----------------------------
+# Utility Functions
+# ----------------------------
+
+def is_connected(host=DEFAULT_HOST, port=DEFAULT_PORT, timeout=DEFAULT_TIMEOUT):
+    """
+    Check internet connectivity by attempting to connect to a specified host and port.
+    """
     try:
         socket.create_connection((host, port), timeout=timeout)
+        logging.debug("Internet connection check: ONLINE.")
         return True
     except OSError:
+        logging.debug("Internet connection check: OFFLINE.")
         return False
 
-# Define a route to serve the home page
+def open_electron():
+    """
+    Launch the Electron application.
+    """
+    try:
+        current_dir = Path(__file__).parent
+        electron_dir = current_dir / ELECTRON_APP_DIR
+
+        if not electron_dir.exists():
+            msg = f"Electron app directory not found: {electron_dir}"
+            logging.error(msg)
+            messagebox.showerror("Error", msg)
+            return
+
+        # Check if yarn is installed
+        if not shutil.which("yarn"):
+            msg = "Yarn is not installed or not found in PATH."
+            logging.error(msg)
+            messagebox.showerror("Error", msg)
+            return
+
+        logging.info(f"Launching Electron app from {electron_dir}...")
+        subprocess.Popen(['yarn', 'start'], cwd=electron_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        logging.info("Electron app launched successfully.")
+    except Exception as e:
+        logging.error(f"Failed to launch Electron app: {e}")
+        messagebox.showerror("Error", f"Failed to launch Electron app: {e}")
+
+def prompt_user():
+    """
+    Prompt the user to choose between Electron App Mode or Browser Mode.
+    """
+    try:
+        root = tk.Tk()
+        root.withdraw()  # Hide the main window
+
+        answer = messagebox.askquestion(
+            "Select Mode",
+            "Do you want to use the App Mode (Electron)?\n\nClick 'Yes' for Electron or 'No' for Browser."
+        )
+
+        if answer == 'yes':
+            open_electron()
+        else:
+            url = f"http://127.0.0.1:{FLASK_PORT}/"
+            logging.info(f"Opening browser to {url}...")
+            webbrowser.open(url)
+    except Exception as e:
+        logging.error(f"Error during user prompt: {e}")
+        messagebox.showerror("Error", f"An unexpected error occurred: {e}")
+    finally:
+        root.destroy()
+
+def start_flask():
+    """
+    Start the Flask server.
+    """
+    try:
+        # Suppress Flask's default logging to avoid duplication
+        log = logging.getLogger('werkzeug')
+        log.setLevel(logging.ERROR)
+
+        logging.info(f"Starting Flask server on port {FLASK_PORT}...")
+        app.run(debug=False, port=FLASK_PORT, use_reloader=False)
+    except Exception as e:
+        logging.error(f"Failed to start Flask server: {e}")
+
+def shutdown_application(signum, frame):
+    """
+    Handle graceful shutdown on receiving termination signals.
+    """
+    logging.info("Shutting down application...")
+    sys.exit(0)
+
+# ----------------------------
+# Flask Routes
+# ----------------------------
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Route for online features (activated only if connected)
 @app.route('/online')
 def online_features():
     if is_connected():
-        return jsonify({"status": "online", "message": "You are online! Access AI, search, and video streaming."})
+        response = {
+            "status": "online",
+            "message": "You are online! Access AI, search, and video streaming."
+        }
+        logging.info("User accessed online features.")
+        return jsonify(response)
     else:
+        logging.info("User attempted to access online features while offline.")
         return redirect(url_for('offline'))
 
-# Route for offline features (always accessible)
 @app.route('/offline')
 def offline():
-    return jsonify({"status": "offline", "message": "You are offline! Access local content and offline features."})
+    response = {
+        "status": "offline",
+        "message": "You are offline! Access local content and offline features."
+    }
+    logging.info("User accessed offline features.")
+    return jsonify(response)
 
-# Start Flask server in a separate thread
-def start_flask():
+# ----------------------------
+# Main Execution
+# ----------------------------
+
+def main():
+    # Register signal handlers for graceful shutdown
+    signal.signal(signal.SIGINT, shutdown_application)
+    signal.signal(signal.SIGTERM, shutdown_application)
+
+    # Start Flask server in a separate daemon thread
+    flask_thread = threading.Thread(target=start_flask, daemon=True)
+    flask_thread.start()
+
+    # Wait briefly to ensure Flask server starts before opening browser
+    threading.Event().wait(1)
+
+    # Prompt user to select mode
+    prompt_user()
+
+    # Keep the main thread alive while Flask server is running
     try:
-        app.run(debug=False, port=5000, use_reloader=False)
-    except Exception as e:
-        logging.error(f"Failed to start Flask: {e}")
-
-# Function to open Electron app
-def open_electron():
-    # Ensure you're in the electron_app directory
-    electron_dir = os.path.join(os.path.dirname(__file__), 'electron_app')
-    
-    # Run Electron via npm start
-    subprocess.run(['yarn', 'start'], cwd=electron_dir)
-
-# Function to prompt the user with a GUI for WebView or browser
-def prompt_user():
-    root = tk.Tk()
-    root.withdraw()  # Hide the root window
-
-    # Ask the user if they want to use Electron or Browser
-    answer = messagebox.askquestion("Application Mode", "Do you want to use the App Mode (Electron)?")
-
-    if answer == 'yes':
-        open_electron()  # Launch Electron instead of WebView
-    else:
-        webbrowser.open('http://127.0.0.1:5000/')  # Fallback to browser mode
+        while flask_thread.is_alive():
+            flask_thread.join(timeout=1)
+    except KeyboardInterrupt:
+        shutdown_application(None, None)
 
 if __name__ == "__main__":
-    # Start the Flask server in a background thread
-    threading.Thread(target=start_flask).start()
-
-    # Prompt the user for the mode (Electron or Browser)
-    prompt_user()
+    main()
