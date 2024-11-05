@@ -115,7 +115,7 @@ body {
 #loginModal input:focus {
   color: #e2e2e2;
 }
-#loginModal .log-in-box input {
+.log-in-box input {
   font-size: 0.6rem;
   height: 2rem;
   padding: 1rem;
@@ -124,14 +124,14 @@ body {
   background-color: #222222;
 }
 
-#loginModal .log-in-box a {
+.log-in-box a {
   padding-left: 0.5rem;
   margin-top: 1rem;
   margin-bottom: -0.8rem;
   font-size: 0.5rem;
   color: #e2e2e2;
 }
-#loginModal .btn {
+.btn {
   background-color: #154f48;
   border: none;
   border-radius: 0.5rem;
@@ -141,8 +141,8 @@ body {
   cursor: pointer;
 }
 
-#loginModal .btn:hover,
-#loginModal .btn:active {
+.btn:hover,
+.btn:active {
   background-color: #16564e;
 }
 
