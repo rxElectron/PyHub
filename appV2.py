@@ -12,14 +12,14 @@ import os
 import time
 import urllib.request
 
-# تنظیمات Logging با فرمت زمان‌بندی شده
+# Initialize Logging with Timestamped Format
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-# Initialize Flask app and SocketIO
+# Initialize Flask app and SocketIO with threading
 app = Flask(__name__)
 try:
-    socketio = SocketIO(app)
-    logging.info("SocketIO initialized successfully.")
+    socketio = SocketIO(app, async_mode='threading')
+    logging.info("SocketIO initialized successfully with threading mode.")
 except Exception as e:
     logging.error(f"Failed to initialize SocketIO: {e}")
 
@@ -65,8 +65,69 @@ def is_connected(host="8.8.8.8", port=53, timeout=3):
         logging.warning(f"No internet connection: {e}")
         return False
 
-# Function to wait for Flask server to start
-def wait_for_flask(url='http://127.0.0.1:5000/', timeout=10):
+# Define route to serve the home page
+@app.route('/')
+def home():
+    try:
+        return render_template('index.html')
+    except Exception as e:
+        logging.error(f"Error rendering home page: {e}")
+        return "Error loading home page"
+
+# Define a simple health check route
+@app.route('/health')
+def health():
+    return "OK", 200
+
+# Route to serve system info
+@app.route('/system_info')
+def system_info():
+    try:
+        data = {
+            "os": platform.system(),
+            "os_version": platform.version(),
+            "browsers": [browser for browser, path in get_installed_browsers()],
+            "app_version": app.config.get('APP_VERSION', '1.0.0')
+        }
+        logging.info("System info retrieved successfully.")
+        return jsonify(data)
+    except Exception as e:
+        logging.error(f"Failed to retrieve system info: {e}")
+        return jsonify({"error": "Failed to retrieve system info"})
+
+# WebSocket event to check online status periodically
+@socketio.on('check_online_status')
+def handle_check_online_status():
+    try:
+        status = "online" if is_connected() else "offline"
+        emit('online_status', {'status': status})
+        logging.info(f"Emitted online status: {status}")
+    except Exception as e:
+        logging.error(f"Error in WebSocket online status check: {e}")
+
+# Route for online features
+@app.route('/online')
+def online_features_route():
+    try:
+        if is_connected():
+            return jsonify({"status": "online", "message": "You are online! Access AI, search, and video streaming."})
+        else:
+            return redirect(url_for('offline_route'))
+    except Exception as e:
+        logging.error(f"Error loading online features: {e}")
+        return jsonify({"error": "Error loading online features"})
+
+# Route for offline features
+@app.route('/offline')
+def offline_route():
+    try:
+        return jsonify({"status": "offline", "message": "You are offline! Access local content and offline features."})
+    except Exception as e:
+        logging.error(f"Error loading offline features: {e}")
+        return jsonify({"error": "Error loading offline features"})
+
+# Function to check if Flask server is running and accessible
+def wait_for_flask(url='http://127.0.0.1:5000/health', timeout=10):
     start_time = time.time()
     while True:
         try:
@@ -74,8 +135,8 @@ def wait_for_flask(url='http://127.0.0.1:5000/', timeout=10):
                 if response.status == 200:
                     logging.info("Flask server is up and running.")
                     return True
-        except Exception:
-            pass
+        except Exception as e:
+            logging.debug(f"Waiting for Flask server... {e}")
         if time.time() - start_time > timeout:
             logging.error("Timeout waiting for Flask server to start.")
             return False
@@ -163,70 +224,28 @@ def open_default_browser(url):
 def open_electron():
     try:
         logging.info("Attempting to start Electron app.")
+        # Ensure you're in the electron_app directory
         electron_dir = os.path.join(os.path.dirname(__file__), 'electron_app')
-        # Use subprocess.Popen to start Electron asynchronously
-        # Assuming package.json has the correct start script
-        process = subprocess.Popen(['npm', 'start'], cwd=electron_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # Run Electron via yarn start
+        process = subprocess.Popen(['yarn', 'start'], cwd=electron_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        
+        # خواندن خروجی به صورت غیرمسدودکننده
+        def log_output(pipe, log_type):
+            for line in iter(pipe.readline, ''):
+                if line:
+                    logging.info(f"Electron {log_type}: {line.strip()}")
+            pipe.close()
+        
+        threading.Thread(target=log_output, args=(process.stdout, "STDOUT"), daemon=True).start()
+        threading.Thread(target=log_output, args=(process.stderr, "STDERR"), daemon=True).start()
+        
         logging.info("Electron app started successfully.")
+    except FileNotFoundError:
+        logging.error("Yarn is not installed or not found in PATH.")
+        messagebox.showerror("Error", "Yarn is not installed or not found in PATH.")
     except Exception as e:
         logging.error(f"Failed to start Electron: {e}")
         messagebox.showerror("Error", f"Failed to start Electron: {e}")
-
-# Define route to serve the home page
-@app.route('/')
-def home():
-    try:
-        return render_template('index.html')
-    except Exception as e:
-        logging.error(f"Error rendering home page: {e}")
-        return "Error loading home page"
-
-# Route to serve system info
-@app.route('/system_info')
-def system_info():
-    try:
-        data = {
-            "os": platform.system(),
-            "os_version": platform.version(),
-            "browsers": [browser for browser, path in get_installed_browsers()],
-            "app_version": app.config.get('APP_VERSION', '1.0.0')
-        }
-        logging.info("System info retrieved successfully.")
-        return jsonify(data)
-    except Exception as e:
-        logging.error(f"Failed to retrieve system info: {e}")
-        return jsonify({"error": "Failed to retrieve system info"})
-
-# WebSocket event to check online status periodically
-@socketio.on('check_online_status')
-def handle_check_online_status():
-    try:
-        status = "online" if is_connected() else "offline"
-        emit('online_status', {'status': status})
-        logging.info(f"Emitted online status: {status}")
-    except Exception as e:
-        logging.error(f"Error in WebSocket online status check: {e}")
-
-# Route for online features
-@app.route('/online')
-def online_features_route():
-    try:
-        if is_connected():
-            return jsonify({"status": "online", "message": "You are online! Access AI, search, and video streaming."})
-        else:
-            return redirect(url_for('offline_route'))
-    except Exception as e:
-        logging.error(f"Error loading online features: {e}")
-        return jsonify({"error": "Error loading online features"})
-
-# Route for offline features
-@app.route('/offline')
-def offline_route():
-    try:
-        return jsonify({"status": "offline", "message": "You are offline! Access local content and offline features."})
-    except Exception as e:
-        logging.error(f"Error loading offline features: {e}")
-        return jsonify({"error": "Error loading offline features"})
 
 # Function to prompt the user with a GUI for Browser or Electron with exception handling
 def prompt_user():
@@ -297,28 +316,52 @@ def prompt_user():
     except Exception as e:
         logging.error(f"Error in prompt_user: {e}")
 
-# Start Flask server in a separate thread with exception handling
-def start_flask():
+# Function to start the Flask server and signal when it's ready
+def start_flask(flask_ready_event):
     try:
         logging.info("Starting Flask server.")
-        socketio.run(app, debug=False, port=5000, use_reloader=False)
-        logging.info("Flask server started.")
+
+        def run_socketio():
+            socketio.run(app, debug=False, port=5000, use_reloader=False)
+            logging.info("Flask server stopped.")
+
+        flask_thread = threading.Thread(target=run_socketio)
+        flask_thread.start()
+
+        # Wait until the server is up
+        if wait_for_flask():
+            flask_ready_event.set()
+        else:
+            logging.error("Flask server failed to start within the timeout period.")
+            flask_ready_event.set()  # Even on failure, set the event to prevent deadlock
     except Exception as e:
         logging.error(f"Failed to start Flask server: {e}")
+        flask_ready_event.set()  # Prevent main thread from waiting indefinitely
+
+# Main function to manage threading and user prompt
+def main():
+    flask_ready_event = threading.Event()
+
+    # Start the Flask server in a background thread
+    flask_server_thread = threading.Thread(target=start_flask, args=(flask_ready_event,), daemon=True)
+    flask_server_thread.start()
+    logging.info("Flask server thread started.")
+
+    # Wait for the Flask server to signal it's ready
+    flask_ready_event.wait()
+    logging.info("Flask server readiness event received.")
+
+    # Check if Flask server is running
+    if is_connected():
+        # Prompt the user for the mode (Electron or Browser)
+        prompt_user()
+    else:
+        messagebox.showerror("Error", "Flask server did not start. Exiting application.")
+        os._exit(1)
 
 if __name__ == "__main__":
     try:
-        # Start the Flask server in a background thread
-        flask_thread = threading.Thread(target=start_flask, daemon=True)
-        flask_thread.start()
-        logging.info("Flask server thread started.")
-
-        # Wait for Flask server to start by checking connectivity to Flask URL
-        if wait_for_flask():
-            # Prompt the user for the mode (Electron or Browser)
-            prompt_user()
-        else:
-            messagebox.showerror("Error", "Flask server did not start. Exiting application.")
-            os._exit(1)
+        main()
     except Exception as e:
         logging.error(f"Error in main execution: {e}")
+        os._exit(1)
