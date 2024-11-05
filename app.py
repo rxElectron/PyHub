@@ -69,12 +69,30 @@ except Exception as e:
 
 # Register blueprints
 try:
-    from app.debug.routes import debug_bp
-    from app.explore.routes import explore_bp
+    from app.debug.routes import debug
+    from app.explore.routes import explore
+    from app.ai_ml_tools.routes import ai_ml_tools
+    from app.analytics.routes import analytics
+    from app.code_comparator.routes import code_comparator
+    from app.learning.routes import learning
+    from app.live_console.routes import live_console
+    from app.profile.routes import profile
+    from app.project_manager.routes import project_manager
+    from app.settings.routes import settings
+    from app.support_help.routes import support_help
 
-    app.register_blueprint(debug_bp)
-    app.register_blueprint(explore_bp)
-    logging.info("Registered blueprints: debug_bp, explore_bp.")
+    app.register_blueprint(debug)
+    app.register_blueprint(explore)
+    app.register_blueprint(ai_ml_tools)
+    app.register_blueprint(analytics)
+    app.register_blueprint(code_comparator)
+    app.register_blueprint(learning)
+    app.register_blueprint(live_console)
+    app.register_blueprint(profile)
+    app.register_blueprint(project_manager)
+    app.register_blueprint(settings)
+    app.register_blueprint(support_help)
+    logging.info("Registered all blueprints successfully.")
 except ImportError as e:
     logging.error(f"Failed to import blueprints: {e}")
     sys.exit(1)

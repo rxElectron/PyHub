@@ -1,8 +1,6 @@
+from . import debug
+from flask import render_template
 
-from flask import Blueprint
-
-debug_bp = Blueprint('debug', __name__)
-
-@debug_bp.route('/debug')
-def debug_page():
-    return "Welcome to the Debug page!"
+@debug.route('/')
+def index():
+    return render_template('ai_ml_tools.html')

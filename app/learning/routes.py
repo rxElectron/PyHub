@@ -1,8 +1,10 @@
+from . import learning
+from flask import render_template
 
-from flask import Blueprint
-
-learning_bp = Blueprint('learning', __name__)
-
-@learning_bp.route('/learning')
+@learning.route('/learning')
 def learning_page():
-    return "Welcome to the Learning page!"
+    return render_template('ai_ml_tools.html')
+
+
+
+

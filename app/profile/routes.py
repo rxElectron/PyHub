@@ -1,8 +1,8 @@
 
 from flask import Blueprint
 
-profile_bp = Blueprint('profile', __name__)
+profile = Blueprint('profile', __name__)
 
-@profile_bp.route('/profile')
+@profile.route('/profile')
 def profile_page():
     return "Welcome to the Profile page!"

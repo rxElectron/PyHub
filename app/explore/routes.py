@@ -1,8 +1,6 @@
+from . import explore
+from flask import render_template
 
-from flask import Blueprint
-
-explore_bp = Blueprint('explore', __name__)
-
-@explore_bp.route('/explore')
+@explore.route('/')
 def explore_page():
-    return "Welcome to the Explore page!"
+    return render_template('ai_ml_tools.html')

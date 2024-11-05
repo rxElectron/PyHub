@@ -1,8 +1,6 @@
+from . import code_comparator
+from flask import render_template
 
-from flask import Blueprint
-
-comparator_bp = Blueprint('comparator', __name__)
-
-@comparator_bp.route('/comparator')
+@code_comparator.route('/code_comparator')
 def comparator_page():
-    return "Welcome to the Code Comparator page!"
+    return render_template('ai_ml_tools.html')
