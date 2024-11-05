@@ -8,6 +8,7 @@ __pycache__/
 # Electron / Node.js dependencies
 node_modules/
 DIAGRAMS/
+DEV_OPS/
 
 # Flask env
 .env
