@@ -40,7 +40,7 @@ button {
 
 .top-nav,
 .main {
-  background-color: #1c1c1c;
+  background-color: #101010;
   border-radius: 0.5rem;
 }
 
@@ -186,7 +186,7 @@ button {
 
 .btn-icon {
   border: none;
-  background-color: #1c1c1c;
+  background-color: #101010;
   display: flex;
   align-items: center;
   gap: 0.5rem;
