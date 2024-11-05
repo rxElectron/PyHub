@@ -12,6 +12,8 @@
   <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/indexStyle.css') }}"> -->
   <link rel="stylesheet" type="text/css" href="../static/css/indexStyle.css">
   <link rel="stylesheet" type="text/css" href="../static/css/electroStyle.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/modals/logInStyle.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/modals/signUpStyle.css">
   <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/indexStyle.css') }}"> -->
   <script src="../static/js/indexScript.js"></script>
   <title>Dashboard</title>
@@ -86,8 +88,8 @@
         <circle cx="589.60296" cy="277" r="6" fill="#fff" />
       </svg>
       <div class="sign-log">
-        <button class="log-in btn">Log In</button>
-        <button class="sign-up btn">Sign Up</button>
+        <button class="log-in btn" onclick="showModal('login-modal')">Log In</button>
+        <button class="sign-up btn" onclick="showModal('signup-modal')">Sign Up</button>
       </div>
     </div>
     <div class="main">
@@ -107,13 +109,15 @@
           <button class="learning-exercises btn-icon">
             <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <ellipse cx="14" cy="13.5" rx="14" ry="13.5" fill="#78928D" fill-opacity="0.61" />
-                <path d="M14 6L14 10" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M10 6L10 10" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M6 13C6 11.1144 6 10.1716 6.58579 9.58579C7.17157 9 8.11438 9 10 9H18C19.8856 9 20.8284 9 21.4142 9.58579C22 10.1716 22 11.1144 22 13V14H6V13Z" stroke="white" stroke-width="1.2"/>
-                <path d="M9 15H13" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M15 15H19" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M9 18H13" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M15 18H19" stroke="white" stroke-width="1.2" stroke-linecap="round"/>                
+              <path d="M14 6L14 10" stroke="white" stroke-width="1.2" stroke-linecap="round" />
+              <path d="M10 6L10 10" stroke="white" stroke-width="1.2" stroke-linecap="round" />
+              <path
+                d="M6 13C6 11.1144 6 10.1716 6.58579 9.58579C7.17157 9 8.11438 9 10 9H18C19.8856 9 20.8284 9 21.4142 9.58579C22 10.1716 22 11.1144 22 13V14H6V13Z"
+                stroke="white" stroke-width="1.2" />
+              <path d="M9 15H13" stroke="white" stroke-width="1.2" stroke-linecap="round" />
+              <path d="M15 15H19" stroke="white" stroke-width="1.2" stroke-linecap="round" />
+              <path d="M9 18H13" stroke="white" stroke-width="1.2" stroke-linecap="round" />
+              <path d="M15 18H19" stroke="white" stroke-width="1.2" stroke-linecap="round" />
             </svg>
             <span>Learning</span>
           </button>
@@ -393,6 +397,90 @@
       </div>
     </div>
   </div>
+  <!-- Empty divs to load modal content -->
+<!-- Login Modal -->
+<div id="login-modal" class="modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="log-in-box">
+          <form>
+            <div>
+              <h3>Welcome back</h3>
+            </div>
+            <input type="text" placeholder="UserName" class="input" />
+            <input type="password" placeholder="Password" class="input" />
+            <a>Forgot Password?</a>
+            <button type="submit" class="btn">Log In</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div id="signup-modal" class="modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="sign-up-box">
+          <form id="signup-form">
+            <div>
+              <h3>Create an account</h3>
+            </div>
+            <div class="inputs">
+              <input type="text" id="username" name="username" placeholder="Username" class="input" required />
+              <input type="email" id="email" name="email" placeholder="Email" class="input" required />
+              <input type="password" id="password" name="password" placeholder="Password" class="input" required />
+              <input type="password" id="verify-password" name="verify_password" placeholder="Verify Password" class="input" required />
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+            <div id="signup-message" class="message"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script>
+// Toggle modal visibility with modal ID
+function toggleModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal.classList.contains('visible')) {
+    closeModal(modalId);
+  } else {
+    showModal(modalId);
+  }
+}
+
+// Show modal
+function showModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.classList.add('visible');
+}
+
+// Close modal
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.classList.remove('visible');
+}
+
+// Close modal when clicking outside of the modal dialog
+document.querySelectorAll('.modal').forEach(modal => {
+  modal.addEventListener('click', function (event) {
+    // Check if the click is outside the .modal-dialog
+    if (!event.target.closest('.modal-dialog')) {
+      closeModal(modal.id);
+    }
+  });
+});
+
+
+  </script>
+
 </body>
 
 </html>

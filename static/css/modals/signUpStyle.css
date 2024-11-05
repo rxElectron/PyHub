@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ------------------------ */
+/* GENERAL STYLES */
+/* ------------------------ */
+body {
+  font-family: "Inter", sans-serif;
+}
+
+button,
+h3 {
+  color: #e2e2e2;
+}
+h3 {
+  letter-spacing: 0.0375rem;
+  font-weight: 525;
+  line-height: 1.3;
+  margin-right: 0.5rem;
+}
+form {
+  border-top: 0.125rem solid #154f48;
+  padding: 1rem;
+}
+.modal-content {
+  background: #222222;
+}
+.sign-up-box {
+  width: 100%;
+  padding: 0.75rem;
+  padding-top: 2rem;
+}
+.sign-up-box > form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sign-up-box button {
+  font-size: 0.7rem;
+  width: fit-content;
+  height: fit-content;
+  align-self: center;
+  border-radius: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding: 0.5rem 1.2rem 0.5rem 1.2rem;
+  box-shadow: 0 0 1rem 0.2rem #154f4890;
+  -webkit-box-shadow: 0 0 1rem 0.2rem #154f4890;
+  -moz-box-shadow: 0 0 1rem 0.2rem #154f4890;
+}
+input,
+select,
+textarea {
+  color: #e2e2e2;
+}
+
+textarea:focus,
+input:focus {
+  color: #e2e2e2;
+}
+.sign-up-box input {
+  font-size: 0.6rem;
+  height: 2rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #154f48;
+  background-color: #222222;
+}
+
+.btn {
+  background-color: #154f48;
+  border: none;
+  border-radius: 0.5rem;
+  height: 2.25rem;
+  width: auto;
+  padding: 0 0.75rem;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: #16564e;
+}
+.inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.5rem;
+  column-gap: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+
+/* .modal {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.modal-content {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  background-color: #222222;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1100; 
+} */
+
+.modal {
+  display: none; /* Hide by default */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.modal.visible {
+  display: flex; /* Only show when .visible is added */
+}
+
+.modal-content {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  background-color: #222222;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1100; /* Ensure it's above the overlay */
+}
