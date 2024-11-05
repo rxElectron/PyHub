@@ -14,6 +14,20 @@
     blink-caret .75s step-end infinite;
 }
 
+#Logo-title {
+font-family: 'Inter', sans-serif;
+font-style: normal;
+font-weight: 700;
+font-size: 2rem;
+line-height: 2.4375rem;
+
+background: linear-gradient(90deg, #7B7B7B 16.4%, #154F48 36.4%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+color: transparent;
+}
+
 @keyframes typing {
   from { width: 0 }
   to { width: 100% }
