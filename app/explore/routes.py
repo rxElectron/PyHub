@@ -1,6 +1,6 @@
 from . import explore
 from flask import render_template
 
-@explore.route('/')
+@explore.route('/explore')
 def explore_page():
-    return render_template('ai_ml_tools.html')
+    return render_template('explore.html')
