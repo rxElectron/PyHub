@@ -26,6 +26,8 @@ __pycache__/
 *$py.class
 *.so
 .Python
+myenv
+myenv/
 myenv/
 env/
 venv/
@@ -71,6 +73,7 @@ Thumbs.db
 DOCs/
 electron_app/dist/
 electron_app/build/
+electron_app/node_modules/
 *.log
 .coverage
 htmlcov/
