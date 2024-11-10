@@ -266,14 +266,15 @@
               fill="#ccc" />
           </svg>
         </div>
+
         <!-- Enhanced Project Manager Section -->
         <div class="project-manager-section">
           <h2 class="section-title">Project Manager</h2>
           <div class="project-manager-container">
-            <div class="project-list">
-              <div class="project-header">
+            <div class="file-explorer">
+              <div class="file-explorer-header">
                 <h3>Your Projects</h3>
-                <button class="btn add-project-btn" title="Add New Project">
+                <button class="btn add-project-btn" title="Add New Project" aria-label="Add New Project">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                     stroke="currentColor" class="icon">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -285,17 +286,23 @@
                 <li class="project-item">
                   <span class="project-name">Project Alpha</span>
                   <div class="project-actions">
-                    <button class="btn edit-btn" title="Edit Project">
+                    <button class="btn open-btn" title="Open Project" aria-label="Open Project">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor" class="icon">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M15.232 5.232l3.536 3.536M19.768 3.232a2.121 2.121 0 113 3L7 19l-4 1 1-4L19.768 3.232z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                       </svg>
                     </button>
-                    <button class="btn delete-btn" title="Delete Project">
+                    <button class="btn delete-btn" title="Delete Project" aria-label="Delete Project">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor" class="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                    <button class="btn git-btn" title="GitHub Integration" aria-label="GitHub Integration">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="#333" viewBox="0 0 24 24" stroke-width="0"
+                        class="icon">
+                        <path
+                          d="M12 .5C5.648.5.5 5.648.5 12c0 5.095 3.292 9.427 7.863 10.96.575.106.787-.25.787-.555 0-.275-.01-1.192-.016-2.336-3.199.696-3.875-1.543-3.875-1.543-.525-1.332-1.281-1.69-1.281-1.69-1.05-.718.08-.703.08-.703 1.163.082 1.776 1.19 1.776 1.19 1.033 1.768 2.708 1.258 3.374.964.105-.748.403-1.258.73-1.55-2.557-.291-5.237-1.278-5.237-5.689 0-1.257.45-2.285 1.185-3.092-.119-.291-.513-1.464.112-3.048 0 0 .967-.309 3.175 1.182a10.934 10.934 0 012.89-.388c.98.005 1.96.133 2.89.388 2.207-1.491 3.173-1.182 3.173-1.182.627 1.584.233 2.757.114 3.048.737.807 1.183 1.835 1.183 3.092 0 4.421-2.684 5.394-5.247 5.68.415.358.785 1.066.785 2.15 0 1.55-.014 2.797-.014 3.185 0 .31.21.666.79.554C20.71 21.423 24 17.095 24 12c0-6.352-5.148-11.5-12-11.5z" />
                       </svg>
                     </button>
                   </div>
@@ -303,274 +310,512 @@
                 <!-- Add more project items as needed -->
               </ul>
             </div>
-            <div class="project-details">
-              <h3>Project Details</h3>
-              <div class="details-content">
-                <!-- Project details will be displayed here -->
-                <p>Select a project to view its details.</p>
+            <div class="code-editor-section">
+              <div class="editor-header">
+                <div class="tabs">
+                  <button class="tab active-tab" data-tab="editor1">main.py</button>
+                  <button class="tab" data-tab="editor2">utils.py</button>
+                  <!-- Additional tabs can be added here -->
+                </div>
+                <div class="editor-actions">
+                  <button class="btn run-btn" title="Run Code" aria-label="Run Code">Run</button>
+                  <button class="btn debug-btn" title="Debug Code" aria-label="Debug Code">Debug</button>
+                  <button class="btn git-push-btn" title="Push to GitHub" aria-label="Push to GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 24 24" stroke-width="0"
+                      class="icon">
+                      <path
+                        d="M12 0C5.37258 0 0 5.37258 0 12C0 17.3039 3.43826 21.8008 8.20508 23.3853C8.80566 23.4953 9.02555 23.1409 9.02555 22.8273C9.02555 22.5441 9.01537 21.8637 9.01171 20.9828C5.67296 21.6912 4.96875 19.4548 4.96875 19.4548C4.42188 17.9297 3.70312 17.6562 3.70312 17.6562C2.67188 17.2188 3.78125 17.2344 3.78125 17.2344C4.90625 17.3281 5.46875 18.4062 5.46875 18.4062C6.57812 20.0625 8.35938 19.5312 9.04688 19.2188C9.15625 18.4375 9.42188 17.9062 9.71875 17.5938C7.03125 17.2812 4.21875 16.1562 4.21875 11.4375C4.21875 10.125 4.60938 9.0625 5.39062 8.23438C5.28125 7.92188 5 7.0625 5 6C5 4.73438 5.79688 3.8125 7 3.8125C7.875 3.8125 8.60938 4.42188 8.79688 5.15625C9.04688 5.03125 9.3125 4.92188 9.59375 4.92188C8.875 4.21875 8 4 7.125 4C5.96875 4 5.0625 4.89062 5.0625 6C5.0625 6.89062 5.60938 7.65625 6.39062 8.0625C6.28125 8.40625 6.21875 8.78125 6.21875 9.1875C6.21875 10.9688 6.21875 12.75 6.21875 12.75C6.21875 13.0625 6.28125 13.3125 6.39062 13.5312C5.60938 13.9062 5.0625 14.6562 5.0625 15.7812C5.0625 17.0625 5.0625 18.3438 5.0625 19.625C5.0625 19.9219 5.0625 20.2188 5.0625 20.5312C5.46875 20.0625 6.09375 19.6562 6.875 19.4688C6.78125 19.7812 6.71875 20.0938 6.71875 20.4062C6.71875 21.2188 6.75 22.0312 6.75 22.8438C6.75 23.3438 6.84375 23.75 6.875 23.8125C7.15625 24.5 7.78125 25 8.5 25C13.1562 25 17 21.8125 17 18C17 14.3438 14.1562 12.3125 12 12.3125C9.84375 12.3125 7.96875 14.3438 7.96875 18C7.96875 21.8125 11.8125 25 16.4688 25C17.1875 25 17.8125 24.5 18.0938 23.8125C18.125 23.75 18.2188 23.3438 18.2188 22.8438C18.2188 22.0312 18.25 21.2188 18.25 20.4062C18.25 20.0938 18.1875 19.7812 18.0938 19.4688C18.9062 19.6562 19.5312 20.0625 19.5312 20.5312C19.5312 20.2188 19.5312 19.9219 19.5312 19.625C19.5312 18.3438 19.5312 17.0625 19.5312 15.7812C19.5312 14.6562 19.9688 13.9062 19.2812 13.5312C19.4062 13.3125 19.4688 13.0625 19.4688 12.75C19.4688 12.75 19.4688 10.9688 19.4688 9.1875C19.4688 8.78125 19.4062 8.40625 19.3125 8.0625C20.0938 7.65625 20.625 6.89062 20.625 6C20.625 4.89062 19.7188 4 18.5625 4C17.6875 4 16.8125 4.21875 16 4.53125C16 4.21875 15.125 4 14.25 4C12.9688 4 12.0312 4.21875 11.2188 4.40625C11.3125 4.09375 11.375 3.78125 11.375 3.46875C11.375 2.65625 11.4062 1.84375 11.4062 1.03125C11.4062 0.53125 11.5 0.125 11.5312 0.0625C11.8125 -0.625 12.4375 -1.125 13.1562 -1.125C17.8125 -1.125 21.6562 2.0625 21.6562 6C21.6562 9.65625 18.8125 11.6875 17.1562 11.6875C15.9688 11.6875 14.9688 11.9062 14.0625 12.2812C14.1875 12.5 14.25 12.75 14.25 12.75C14.25 12.75 14.25 14.5312 14.25 16.3125C14.25 16.7188 14.1875 17.0938 14.0938 17.4375C14.9062 17.8438 15.5312 18.5938 15.5312 19.4062C15.5312 19.7188 15.5312 20.0312 15.5312 20.3438C15.0312 20.7812 14.4062 21.1875 13.6562 21.375C13.75 21.0625 13.8125 20.75 13.8125 20.4375C13.8125 19.625 13.8438 18.8125 13.8438 18C13.8438 17.6875 13.7812 17.375 13.6875 17.0312C14.5 17.3438 15.125 17.75 15.125 18.1562C15.125 18.4688 15.0625 18.7812 14.9688 19.125C14.8438 18.9062 14.7812 18.6562 14.7812 18.3438C14.7812 17.5312 14.8125 16.7188 14.8125 15.9062C14.8125 15.5 14.75 15.125 14.6562 14.7812C15.4688 15.1875 16.0938 15.9062 16.0938 16.7188C16.0938 17.0312 16.0312 17.3438 15.9375 17.6875C16.75 18 17.375 18.4062 17.375 19.2188C17.375 19.5312 17.3125 19.8438 17.2188 20.1875C16.8438 19.875 16.3125 19.5312 15.6562 19.3125C15.75 19 15.8125 18.6875 15.8125 18.375C15.8125 17.5625 15.8438 16.75 15.8438 15.9375C15.8438 15.5312 15.7812 15.1562 15.6875 14.8125C16.5 15.2188 17.125 15.9062 17.125 16.7188C17.125 17.0312 17.0625 17.3438 16.9688 17.6875C17.7812 18 18.4062 18.4062 18.4062 19.2188C18.4062 19.5312 18.3438 19.8438 18.25 20.1875C17.875 19.875 17.3438 19.5312 16.6875 19.3125C16.7812 19 16.8438 18.6875 16.8438 18.375C16.8438 17.5625 16.875 16.75 16.875 15.9375C16.875 15.5312 16.8125 15.1562 16.7188 14.8125C17.5312 15.2188 18.1562 15.9062 18.1562 16.7188C18.1562 17.0312 18.0938 17.3438 17.9688 17.6875C18.7812 18 19.4062 18.4062 19.4062 19.2188C19.4062 19.5312 19.3438 19.8438 19.25 20.1875C18.875 19.875 18.3438 19.5312 17.6875 19.3125C17.7812 19 17.8438 18.6875 17.8438 18.375C17.8438 17.5625 17.875 16.75 17.875 15.9375C17.875 15.5312 17.8125 15.1562 17.7188 14.8125C18.5312 15.2188 19.1562 15.9062 19.1562 16.7188C19.1562 17.0312 19.0938 17.3438 18.9688 17.6875C19.7812 18 20.4062 18.4062 20.4062 19.2188C20.4062 19.5312 20.3438 19.8438 20.25 20.1875C19.875 19.875 19.3438 19.5312 18.6875 19.3125C18.7812 19 18.8438 18.6875 18.8438 18.375C18.8438 17.5625 18.875 16.75 18.875 15.9375C18.875 15.5312 18.8125 15.1562 18.7188 14.8125C19.5312 15.2188 20.1562 15.9062 20.1562 16.7188C20.1562 17.0312 20.0938 17.3438 19.9688 17.6875C20.7812 18 21.4062 18.4062 21.4062 19.2188C21.4062 19.5312 21.3438 19.8438 21.25 20.1875C20.875 19.875 20.3438 19.5312 19.6875 19.3125C19.7812 19 19.8438 18.6875 19.8438 18.375C19.8438 17.5625 19.875 16.75 19.875 15.9375C19.875 15.5312 19.8125 15.1562 19.7188 14.8125C20.5312 15.2188 21.1562 15.9062 21.1562 16.7188C21.1562 17.0312 21.0938 17.3438 20.9688 17.6875C21.7812 18 22.4062 18.4062 22.4062 19.2188C22.4062 19.5312 22.3438 19.8438 22.25 20.1875C21.875 19.875 21.3438 19.5312 20.6875 19.3125C20.7812 19 20.8438 18.6875 20.8438 18.375C20.8438 17.5625 20.875 16.75 20.875 15.9375C20.875 15.5312 20.8125 15.1562 20.7188 14.8125C21.5312 15.2188 22.1562 15.9062 22.1562 16.7188C22.1562 17.0312 22.0938 17.3438 21.9688 17.6875C22.7812 18 23.4062 18.4062 23.4062 19.2188C23.4062 19.5312 23.3438 19.8438 23.25 20.1875C22.875 19.875 22.3438 19.5312 21.6875 19.3125C21.7812 19 21.8438 18.6875 21.8438 18.375C21.8438 17.5625 21.875 16.75 21.875 15.9375C21.875 15.5312 21.8125 15.1562 21.7188 14.8125C22.5312 15.2188 23.1562 15.9062 23.1562 16.7188C23.1562 17.0312 23.0938 17.3438 22.9688 17.6875C23.7812 18 24.4062 18.4062 24.4062 19.2188C24.4062 19.5312 24.3438 19.8438 24.25 20.1875C23.875 19.875 23.3438 19.5312 22.6875 19.3125C22.7812 19 22.8438 18.6875 22.8438 18.375C22.8438 17.5625 22.875 16.75 22.875 15.9375C22.875 15.5312 22.8125 15.1562 22.7188 14.8125C23.5312 15.2188 24.1562 15.9062 24.1562 16.7188C24.1562 17.0312 24.0938 17.3438 23.9688 17.6875C24.7812 18 25.4062 18.4062 25.4062 19.2188C25.4062 19.5312 25.3438 19.8438 25.25 20.1875C24.875 19.875 24.3438 19.5312 23.6875 19.3125C23.7812 19 23.8438 18.6875 23.8438 18.375C23.8438 17.5625 23.875 16.75 23.875 15.9375C23.875 15.5312 23.8125 15.1562 23.7188 14.8125C24.5312 15.2188 25.1562 15.9062 25.1562 16.7188C25.1562 17.0312 25.0938 17.3438 24.9688 17.6875C25.7812 18 26.4062 18.4062 26.4062 19.2188C26.4062 19.5312 26.3438 19.8438 26.25 20.1875C25.875 19.875 25.3438 19.5312 24.6875 19.3125C24.7812 19 24.8438 18.6875 24.8438 18.375C24.8438 17.5625 24.875 16.75 24.875 15.9375C24.875 15.5312 24.8125 15.1562 24.7188 14.8125C25.5312 15.2188 26.1562 15.9062 26.1562 16.7188C26.1562 17.0312 26.0938 17.3438 25.9688 17.6875C26.7812 18 27.4062 18.4062 27.4062 19.2188C27.4062 19.5312 27.3438 19.8438 27.25 20.1875C26.875 19.875 26.3438 19.5312 25.6875 19.3125C25.7812 19 25.8438 18.6875 25.8438 18.375C25.8438 17.5625 25.875 16.75 25.875 15.9375C25.875 15.5312 25.8125 15.1562 25.7188 14.8125C26.5312 15.2188 27.1562 15.9062 27.1562 16.7188C27.1562 17.0312 27.0938 17.3438 26.9688 17.6875C27.7812 18 28.4062 18.4062 28.4062 19.2188C28.4062 19.5312 28.3438 19.8438 28.25 20.1875C27.875 19.875 27.3438 19.5312 26.6875 19.3125C26.7812 19 26.8438 18.6875 26.8438 18.375C26.8438 17.5625 26.875 16.75 26.875 15.9375C26.875 15.5312 26.8125 15.1562 26.7188 14.8125C27.5312 15.2188 28.1562 15.9062 28.1562 16.7188C28.1562 17.0312 28.0938 17.3438 27.9688 17.6875C28.7812 18 29.4062 18.4062 29.4062 19.2188C29.4062 19.5312 29.3438 19.8438 29.25 20.1875C28.875 19.875 28.3438 19.5312 27.6875 19.3125C27.7812 19 27.8438 18.6875 27.8438 18.375C27.8438 17.5625 27.875 16.75 27.875 15.9375C27.875 15.5312 27.8125 15.1562 27.7188 14.8125C28.5312 15.2188 29.1562 15.9062 29.1562 16.7188C29.1562 17.0312 29.0938 17.3438 28.9688 17.6875C29.7812 18 30.4062 18.4062 30.4062 19.2188C30.4062 19.5312 30.3438 19.8438 30.25 20.1875C29.875 19.875 29.3438 19.5312 28.6875 19.3125C28.7812 19 28.8438 18.6875 28.8438 18.375C28.8438 17.5625 28.875 16.75 28.875 15.9375C28.875 15.5312 28.8125 15.1562 28.7188 14.8125C29.5312 15.2188 30.1562 15.9062 30.1562 16.7188C30.1562 17.0312 30.0938 17.3438 29.9688 17.6875C30.7812 18 31.4062 18.4062 31.4062 19.2188C31.4062 19.5312 31.3438 19.8438 31.25 20.1875C30.875 19.875 30.3438 19.5312 29.6875 19.3125C29.7812 19 29.8438 18.6875 29.8438 18.375C29.8438 17.5625 29.875 16.75 29.875 15.9375C29.875 15.5312 29.8125 15.1562 29.7188 14.8125C30.5312 15.2188 31.1562 15.9062 31.1562 16.7188C31.1562 17.0312 31.0938 17.3438 30.9688 17.6875C31.7812 18 32.4062 18.4062 32.4062 19.2188C32.4062 19.5312 32.3438 19.8438 32.25 20.1875C31.875 19.875 31.3438 19.5312 30.6875 19.3125C30.7812 19 30.8438 18.6875 30.8438 18.375C30.8438 17.5625 30.875 16.75 30.875 15.9375C30.875 15.5312 30.8125 15.1562 30.7188 14.8125C31.5312 15.2188 32.1562 15.9062 32.1562 16.7188C32.1562 17.0312 32.0938 17.3438 31.9688 17.6875Z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="code-editor-section">
+                <div class="editor-header">
+                  <div class="tabs">
+                    <button class="tab active-tab" data-tab="editor1">main.py</button>
+                    <button class="tab" data-tab="editor2">utils.py</button>
+                    <!-- Additional tabs can be added here -->
+                  </div>
+                  <div class="editor-actions">
+                    <button class="btn run-btn" title="Run Code" aria-label="Run Code">Run</button>
+                    <button class="btn debug-btn" title="Debug Code" aria-label="Debug Code">Debug</button>
+                    <button class="btn git-push-btn" title="Push to GitHub" aria-label="Push to GitHub">
+                      <!-- Git Push Icon SVG -->
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 24 24" stroke-width="0"
+                        class="icon">
+                        <path d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    <button class="btn theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">🌙</button>
+                  </div>
+                </div>
+                <div class="editors">
+                  <div class="editor active-editor" id="editor1">
+                    <textarea class="code-textarea" placeholder="Write your Python code here..."
+                      aria-label="Code Editor 1"></textarea>
+                  </div>
+                  <div class="editor" id="editor2">
+                    <textarea class="code-textarea" placeholder="Write your Python code here..."
+                      aria-label="Code Editor 2"></textarea>
+                  </div>
+                  <!-- Additional editors can be added here -->
+                </div>
+                <div class="search-replace">
+                  <input type="text" id="search-input" placeholder="Search..." aria-label="Search">
+                  <input type="text" id="replace-input" placeholder="Replace..." aria-label="Replace">
+                  <button id="replace-btn" class="btn replace-btn" title="Replace Text"
+                    aria-label="Replace Text">Replace</button>
+                </div>
+                <div class="console-output">
+                  <h4>Output:</h4>
+                  <pre id="output-area"></pre>
+                </div>
+              </div>
+            </div>
+
+            <!-- CSS Enhancements -->
+            <style>
+              /* Theme Variables */
+              :root {
+                --background-color: #ffffff;
+                --text-color: #333333;
+                --button-bg: #007acc;
+                --button-hover-bg: #005fa3;
+                --editor-bg: #f5f5f5;
+                --editor-text-color: #000000;
+                --console-bg: #f1f1f1;
+              }
+
+              [data-theme="dark"] {
+                --background-color: #1e1e1e;
+                --text-color: #d4d4d4;
+                --button-bg: #007acc;
+                --button-hover-bg: #005fa3;
+                --editor-bg: #2d2d2d;
+                --editor-text-color: #ffffff;
+                --console-bg: #272727;
+              }
+
+              .project-manager-section {
+                background: var(--background-color);
+                color: var(--text-color);
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-top: 20px;
+              }
+
+              .section-title {
+                font-size: 1.8em;
+                margin-bottom: 15px;
+                text-align: center;
+              }
+
+              .project-manager-container {
+                display: flex;
+                gap: 20px;
+                flex-wrap: wrap;
+              }
+
+              .file-explorer,
+              .code-editor-section {
+                flex: 1;
+                min-width: 300px;
+                display: flex;
+                flex-direction: column;
+              }
+
+              .file-explorer-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+              }
+
+              .file-explorer-header h3 {
+                margin: 0;
+                color: var(--text-color);
+              }
+
+              .add-project-btn {
+                background-color: var(--button-bg);
+                color: #fff;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+              }
+
+              .add-project-btn:hover {
+                background-color: var(--button-hover-bg);
+              }
+
+              .projects {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                background: var(--editor-bg);
+                border-radius: 6px;
+                padding: 10px;
+                max-height: 400px;
+                overflow-y: auto;
+              }
+
+              .project-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #e2e2e2;
+                padding: 10px 15px;
+                border-radius: 6px;
+                margin-bottom: 10px;
+                transition: background 0.3s;
+              }
+
+              [data-theme="dark"] .project-item {
+                background: #3c3c3c;
+              }
+
+              .project-item:hover {
+                background: #d4d4d4;
+              }
+
+              [data-theme="dark"] .project-item:hover {
+                background: #4d4d4d;
+              }
+
+              .project-name {
+                font-size: 1em;
+                color: var(--text-color);
+              }
+
+              .project-actions .btn {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                margin-left: 10px;
+                transition: transform 0.2s;
+              }
+
+              .project-actions .btn:hover {
+                transform: scale(1.2);
+              }
+
+              .code-editor-section {
+                background: var(--editor-bg);
+                padding: 15px;
+                border-radius: 6px;
+              }
+
+              .editor-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+              }
+
+              .tabs {
+                display: flex;
+                gap: 5px;
+              }
+
+              .tab {
+                background: #e2e2e2;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background 0.3s;
+              }
+
+              [data-theme="dark"] .tab {
+                background: #555555;
+                color: #fff;
+              }
+
+              .tab:hover {
+                background: #d4d4d4;
+              }
+
+              [data-theme="dark"] .tab:hover {
+                background: #666666;
+              }
+
+              .active-tab {
+                background: var(--button-bg);
+                color: #fff;
+              }
+
+              .editor-actions .btn {
+                background-color: var(--button-bg);
+                color: #fff;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-left: 5px;
+                transition: background-color 0.3s;
+              }
+
+              .editor-actions .btn:hover {
+                background-color: var(--button-hover-bg);
+              }
+
+              .editors {
+                position: relative;
+                height: 400px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                overflow: hidden;
+              }
+
+              .editor {
+                display: none;
+                height: 100%;
+              }
+
+              .active-editor {
+                display: block;
+              }
+
+              .code-textarea {
+                width: 100%;
+                height: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 6px;
+                resize: none;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1em;
+                background: var(--editor-bg);
+                color: var(--editor-text-color);
+                caret-color: #ffffff;
+              }
+
+              .code-textarea:focus {
+                outline: none;
+                border: 2px solid var(--button-bg);
+              }
+
+              .search-replace {
+                display: flex;
+                gap: 10px;
+                margin-top: 10px;
+                flex-wrap: wrap;
+              }
+
+              .search-replace input {
+                flex: 1;
+                padding: 8px;
+                border: 2px solid var(--button-bg);
+                border-radius: 6px;
+                font-size: 1em;
+                color: var(--text-color);
+                background: var(--background-color);
+              }
+
+              .replace-btn {
+                background-color: var(--button-bg);
+                color: #fff;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+              }
+
+              .replace-btn:hover {
+                background-color: var(--button-hover-bg);
+              }
+
+              .console-output {
+                background: var(--console-bg);
+                color: var(--text-color);
+                padding: 15px;
+                border-radius: 6px;
+                min-height: 100px;
+                overflow-y: auto;
+                font-family: 'Courier New', Courier, monospace;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                margin-top: 15px;
+              }
+
+              /* Responsive Design */
+              @media (max-width: 768px) {
+                .project-manager-container {
+                  flex-direction: column;
+                }
+
+                .code-editor-section {
+                  width: 100%;
+                }
+
+                .search-replace {
+                  flex-direction: column;
+                }
+
+                .compare-btn,
+                .save-result-btn,
+                .run-btn,
+                .debug-btn,
+                .git-push-btn,
+                .theme-toggle-btn {
+                  width: 100%;
+                }
+              }
+            </style>
+
+            <!-- JavaScript Enhancements -->
+            <script>
+              // Theme Toggle Functionality
+              const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+              const root = document.documentElement;
+
+              themeToggleBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                  if (root.getAttribute('data-theme') === 'light') {
+                    root.setAttribute('data-theme', 'dark');
+                    btn.textContent = '🌞';
+                  } else {
+                    root.setAttribute('data-theme', 'light');
+                    btn.textContent = '🌙';
+                  }
+                });
+              });
+
+              // Tab Switching Functionality
+              document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function () {
+                  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active-tab'));
+                  this.classList.add('active-tab');
+
+                  const target = this.getAttribute('data-tab');
+                  document.querySelectorAll('.editor').forEach(editor => editor.classList.remove('active-editor'));
+                  document.getElementById(target).classList.add('active-editor');
+                });
+              });
+              // Add Project Button Functionality
+              document.querySelector('.add-project-btn').addEventListener('click', function () {
+                const projectName = prompt("Enter the new project name:");
+                if (projectName) {
+                  const projectList = document.querySelector('.projects');
+                  const newProject = document.createElement('li');
+                  newProject.classList.add('project-item');
+                  newProject.innerHTML = `
+            <span class="project-name">${projectName}</span>
+            <div class="project-actions">
+              <button class="btn open-btn" title="Open Project" aria-label="Open Project">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+              <button class="btn delete-btn" title="Delete Project" aria-label="Delete Project">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <button class="btn git-btn" title="GitHub Integration" aria-label="GitHub Integration">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#333" viewBox="0 0 24 24" stroke-width="0" class="icon">
+                  <path d="M12 0C5.64858 0 0 5.64858 0 12c0 5.095 3.29297 9.42773 7.86328 10.9609.5752.1064.7871-.25.7871-.555 0-.275-.01-1.19238-.0166-2.33643-3.19922.6963-3.875-.54395-3.875-.54395-.52539-1.33203-1.28125-1.69-1.28125-1.69-1.05078-.71875.08-.70313.08-.70313 1.16406.08203 1.77637 1.19141 1.77637 1.19141 1.0332 1.76953 2.70801 1.25879 3.375 0 0-.10938-.74414-.28125-1.03125-.40625-1.1875-.40625-2.01563-.40625-2.01563-1.34375-.1875-3.28125-.15625-3.28125-.15625-.0625-.4375-.03125-.78125.07813-1.09375.46484-1.21582 1.29688-2.61719 2.20313-3.90625 1.05078-1.40625 2.27344-2.53125 3.5625-3.375.32813-.23438.71875-.375 1.125-.375.40625 0 .79688.14063 1.125.375 1.28906.84375 2.51172 1.96875 3.5625 3.375.90625 1.28906 1.73828 2.6875 2.20313 3.90625.10938.3125.14063.65625.07813 1.09375 0 0-1.9375.03125-3.28125.15625 0 0 0 .82813.01563 2.01563 0 0 1.24609.02734 2.125-.40625 3.28125 0 0-.03125 1.82813.15625 3.01563 0 0 1.75781.90625 3.28125 1.40625 0 0 0 .23438 0 .46875-.03125.32813-.14063.65625-.28125 1.03125.66602.99609 1.78125 1.9375 3.375 2.53125 1.59375.59375 3.5625.65625 3.5625.65625.46484 0 1.19922-.48438 1.40625-1.09375.21875-.65625.21875-1.40625.21875-1.40625 0-.40625-.10938-.75-.1875-1.09375.66602-.09375 1.34375-.15625 2.03125-.15625.6875 0 1.40625.0625 2.0625.15625-.04688-.1875-.09375-.375-.15625-.5625C20.7852 13.7695 21.4062 13.3438 21.4062 12C21.4062 5.64858 16.7578 0 10.4062 0H12z"/>
+                </svg>
+              </button>
+            </div>
+          </li>`;
+                  projectList.appendChild(newProject);
+                }
+              });
+            </script>
+
+          </div>
+        </div>
+      </div>
+      <!-- Empty divs to load modal content -->
+      <!-- Login Modal -->
+      <div id="login-modal" class="modal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="log-in-box">
+                <form>
+                  <div>
+                    <h3>Welcome back</h3>
+                  </div>
+                  <input type="text" placeholder="UserName" class="input" />
+                  <input type="password" placeholder="Password" class="input" />
+                  <a>Forgot Password?</a>
+                  <button type="submit" class="btn">Log In</button>
+                </form>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- CSS Enhancements (Add to your existing CSS file or include within a <style> tag) -->
-        <style>
-          .project-manager-section {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-          }
-
-          .section-title {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            color: #154F48;
-            text-align: center;
-          }
-
-          .project-manager-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-          }
-
-          .project-list,
-          .project-details {
-            flex: 1;
-            min-width: 300px;
-          }
-
-          .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-          }
-
-          .project-header h3 {
-            margin: 0;
-            color: #333;
-          }
-
-          .add-project-btn {
-            background-color: #154F48;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-          }
-
-          .add-project-btn:hover {
-            background-color: #0e3d38;
-          }
-
-          .projects {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-          }
-
-          .project-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f1f1f1;
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            transition: background 0.3s;
-          }
-
-          .project-item:hover {
-            background: #e2e2e2;
-          }
-
-          .project-name {
-            font-size: 1em;
-            color: #333;
-          }
-
-          .project-actions .btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: transform 0.2s;
-          }
-
-          .project-actions .btn:hover {
-            transform: scale(1.2);
-          }
-
-          .project-details {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 6px;
-          }
-
-          .project-details h3 {
-            margin-top: 0;
-            color: #333;
-          }
-
-          .details-content {
-            margin-top: 10px;
-            color: #555;
-          }
-
-          /* Responsive Design */
-          @media (max-width: 768px) {
-            .project-manager-container {
-              flex-direction: column;
-            }
-          }
-        </style>
-
-        <!-- JavaScript Enhancements (Add to your existing JS file or include within a <script> tag) -->
-        <script>
-          // Example: Add Project Button Functionality
-          document.querySelector('.add-project-btn').addEventListener('click', function () {
-            const projectName = prompt("Enter the new project name:");
-            if (projectName) {
-              const projectList = document.querySelector('.projects');
-              const newProject = document.createElement('li');
-              newProject.classList.add('project-item');
-              newProject.innerHTML = `
-        <span class="project-name">${projectName}</span>
-        <div class="project-actions">
-          <button class="btn edit-btn" title="Edit Project">
-            <!-- Edit Icon SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M19.768 3.232a2.121 2.121 0 113 3L7 19l-4 1 1-4L19.768 3.232z" />
-            </svg>
-          </button>
-          <button class="btn delete-btn" title="Delete Project">
-            <!-- Delete Icon SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+      <!-- Signup Modal -->
+      <div id="signup-modal" class="modal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="sign-up-box">
+                <form id="signup-form">
+                  <div>
+                    <h3>Create an account</h3>
+                  </div>
+                  <div class="inputs">
+                    <input type="text" id="username" name="username" placeholder="Username" class="input" required />
+                    <input type="email" id="email" name="email" placeholder="Email" class="input" required />
+                    <input type="password" id="password" name="password" placeholder="Password" class="input"
+                      required />
+                    <input type="password" id="verify-password" name="verify_password" placeholder="Verify Password"
+                      class="input" required />
+                  </div>
+                  <button type="submit" class="btn">Sign Up</button>
+                  <div id="signup-message" class="message"></div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-      `;
-              projectList.appendChild(newProject);
-              attachProjectActions(newProject);
+      </div>
+
+
+      <script>
+        // Toggle modal visibility with modal ID
+        function toggleModal(modalId) {
+          const modal = document.getElementById(modalId);
+          if (modal.classList.contains('visible')) {
+            closeModal(modalId);
+          } else {
+            showModal(modalId);
+          }
+        }
+
+        // Show modal
+        function showModal(modalId) {
+          const modal = document.getElementById(modalId);
+          modal.classList.add('visible');
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+          const modal = document.getElementById(modalId);
+          modal.classList.remove('visible');
+        }
+
+        // Close modal when clicking outside of the modal dialog
+        document.querySelectorAll('.modal').forEach(modal => {
+          modal.addEventListener('click', function (event) {
+            // Check if the click is outside the .modal-dialog
+            if (!event.target.closest('.modal-dialog')) {
+              closeModal(modal.id);
             }
           });
-
-          // Function to attach edit and delete actions to a project item
-          function attachProjectActions(projectItem) {
-            const editBtn = projectItem.querySelector('.edit-btn');
-            const deleteBtn = projectItem.querySelector('.delete-btn');
-
-            editBtn.addEventListener('click', function () {
-              const newName = prompt("Edit project name:", projectItem.querySelector('.project-name').innerText);
-              if (newName) {
-                projectItem.querySelector('.project-name').innerText = newName;
-              }
-            });
-
-            deleteBtn.addEventListener('click', function () {
-              if (confirm("Are you sure you want to delete this project?")) {
-                projectItem.remove();
-              }
-            });
-          }
-
-          // Attach actions to existing project items on page load
-          document.querySelectorAll('.project-item').forEach(attachProjectActions);
-        </script>
-
-      </div>
-    </div>
-  </div>
-  <!-- Empty divs to load modal content -->
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="log-in-box">
-            <form>
-              <div>
-                <h3>Welcome back</h3>
-              </div>
-              <input type="text" placeholder="UserName" class="input" />
-              <input type="password" placeholder="Password" class="input" />
-              <a>Forgot Password?</a>
-              <button type="submit" class="btn">Log In</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Signup Modal -->
-  <div id="signup-modal" class="modal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="sign-up-box">
-            <form id="signup-form">
-              <div>
-                <h3>Create an account</h3>
-              </div>
-              <div class="inputs">
-                <input type="text" id="username" name="username" placeholder="Username" class="input" required />
-                <input type="email" id="email" name="email" placeholder="Email" class="input" required />
-                <input type="password" id="password" name="password" placeholder="Password" class="input" required />
-                <input type="password" id="verify-password" name="verify_password" placeholder="Verify Password"
-                  class="input" required />
-              </div>
-              <button type="submit" class="btn">Sign Up</button>
-              <div id="signup-message" class="message"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        });
 
 
-  <script>
-    // Toggle modal visibility with modal ID
-    function toggleModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal.classList.contains('visible')) {
-        closeModal(modalId);
-      } else {
-        showModal(modalId);
-      }
-    }
-
-    // Show modal
-    function showModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.classList.add('visible');
-    }
-
-    // Close modal
-    function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.classList.remove('visible');
-    }
-
-    // Close modal when clicking outside of the modal dialog
-    document.querySelectorAll('.modal').forEach(modal => {
-      modal.addEventListener('click', function (event) {
-        // Check if the click is outside the .modal-dialog
-        if (!event.target.closest('.modal-dialog')) {
-          closeModal(modal.id);
-        }
-      });
-    });
-
-
-  </script>
+      </script>
 
 </body>
 

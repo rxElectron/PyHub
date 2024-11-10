@@ -273,17 +273,22 @@
             <div class="code-inputs">
               <div class="code-editor">
                 <label for="code1">Code Snippet 1</label>
-                <textarea id="code1" class="code-textarea"
-                  placeholder="Paste your first code snippet here..."></textarea>
+                <textarea id="code1" class="code-textarea" placeholder="Paste your first code snippet here..."
+                  aria-label="Code Snippet 1"></textarea>
               </div>
               <div class="code-editor">
                 <label for="code2">Code Snippet 2</label>
-                <textarea id="code2" class="code-textarea"
-                  placeholder="Paste your second code snippet here..."></textarea>
+                <textarea id="code2" class="code-textarea" placeholder="Paste your second code snippet here..."
+                  aria-label="Code Snippet 2"></textarea>
               </div>
             </div>
-            <button id="compare-btn" class="btn compare-btn">Compare</button>
-            <div id="comparison-result" class="comparison-result">
+            <div class="comparator-actions">
+              <button id="compare-btn" class="btn compare-btn" title="Compare Codes"
+                aria-label="Compare Codes">Compare</button>
+              <button id="save-result-btn" class="btn save-result-btn" title="Save Comparison Result"
+                aria-label="Save Comparison Result">Save Result</button>
+            </div>
+            <div id="comparison-result" class="comparison-result" aria-live="polite" aria-atomic="true">
               <!-- Comparison results will be displayed here -->
               <p>Compare two code snippets to find differences and similarities.</p>
             </div>
@@ -345,9 +350,25 @@
             resize: vertical;
             font-family: 'Courier New', Courier, monospace;
             font-size: 1em;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            caret-color: #ffffff;
           }
 
-          .compare-btn {
+          .code-textarea:focus {
+            outline: none;
+            border-color: #007acc;
+          }
+
+          .comparator-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+
+          .compare-btn,
+          .save-result-btn {
             background-color: #154F48;
             color: #fff;
             padding: 12px 24px;
@@ -355,10 +376,11 @@
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s;
-            font-size: 1.1em;
+            font-size: 1em;
           }
 
-          .compare-btn:hover {
+          .compare-btn:hover,
+          .save-result-btn:hover {
             background-color: #0e3d38;
           }
 
@@ -372,6 +394,34 @@
             overflow-x: auto;
             font-family: 'Courier New', Courier, monospace;
             color: #333;
+          }
+
+          .comparison {
+            display: flex;
+            gap: 20px;
+          }
+
+          .code-block {
+            flex: 1;
+            background: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+          }
+
+          .code-block h4 {
+            margin-top: 0;
+            color: #333;
+          }
+
+          .code-block pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #272727;
+            color: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
           }
 
           /* Highlight differences */
@@ -388,10 +438,14 @@
           @media (max-width: 768px) {
             .code-inputs {
               flex-direction: column;
-              align-items: stretch;
             }
 
-            .compare-btn {
+            .comparison {
+              flex-direction: column;
+            }
+
+            .compare-btn,
+            .save-result-btn {
               width: 100%;
             }
           }
@@ -403,24 +457,59 @@
             const code1 = document.getElementById('code1').value;
             const code2 = document.getElementById('code2').value;
 
-            // Placeholder for code comparison logic
-            // Implement your comparison algorithm or use a library
-            // For demonstration, we'll display both codes side by side
+            if (code1.trim() === '' || code2.trim() === '') {
+              alert("Please enter code in both snippets.");
+              return;
+            }
 
-            const comparisonResult = document.getElementById('comparison-result');
-            comparisonResult.innerHTML = `
-      <h3>Comparison Result</h3>
-      <div class="comparison">
-        <div class="code-block">
-          <h4>Code Snippet 1</h4>
-          <pre>${escapeHtml(code1)}</pre>
-        </div>
-        <div class="code-block">
-          <h4>Code Snippet 2</h4>
-          <pre>${escapeHtml(code2)}</pre>
-        </div>
-      </div>
-    `;
+            // Placeholder for code comparison logic
+            // Implement your comparison algorithm or use a library like diff2html
+            // For demonstration, we'll use a simple line-by-line comparison
+
+            const lines1 = code1.split('\n');
+            const lines2 = code2.split('\n');
+            const maxLength = Math.max(lines1.length, lines2.length);
+            let comparisonHTML = '<h3>Comparison Result</h3><div class="comparison">';
+
+            for (let i = 0; i < maxLength; i++) {
+              const line1 = lines1[i] || '';
+              const line2 = lines2[i] || '';
+              if (line1 !== line2) {
+                comparisonHTML += `
+          <div class="code-block difference">
+            <h4>Snippet 1 - Line ${i + 1}</h4>
+            <pre>${escapeHtml(line1)}</pre>
+          </div>
+          <div class="code-block difference">
+            <h4>Snippet 2 - Line ${i + 1}</h4>
+            <pre>${escapeHtml(line2)}</pre>
+          </div>
+        `;
+              } else {
+                comparisonHTML += `
+          <div class="code-block similarity">
+            <h4>Line ${i + 1}</h4>
+            <pre>${escapeHtml(line1)}</pre>
+          </div>
+          <div class="code-block similarity">
+            <h4>Line ${i + 1}</h4>
+            <pre>${escapeHtml(line2)}</pre>
+          </div>
+        `;
+              }
+            }
+
+            comparisonHTML += '</div>';
+            document.getElementById('comparison-result').innerHTML = comparisonHTML;
+          });
+
+          document.getElementById('save-result-btn').addEventListener('click', function () {
+            const comparisonContent = document.getElementById('comparison-result').innerText;
+            const blob = new Blob([comparisonContent], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'comparison_result.txt';
+            link.click();
           });
 
           // Function to escape HTML to prevent XSS
@@ -434,9 +523,6 @@
             };
             return text.replace(/[&<>"']/g, function (m) { return map[m]; });
           }
-
-          // Optional: Implement a real comparison and highlight differences/similarities
-          // You can use libraries like diff2html for better results
         </script>
 
       </div>

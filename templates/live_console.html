@@ -273,13 +273,13 @@
             <div class="console-header">
               <span class="console-title">Python Interactive Shell</span>
               <div class="console-controls">
-                <button class="btn minimize-btn" title="Minimize Console">
+                <button class="btn toggle-terminal-btn" title="Toggle Terminal" aria-label="Toggle Terminal">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="icon">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                 </button>
-                <button class="btn close-btn" title="Close Console">
+                <button class="btn close-btn" title="Close Console" aria-label="Close Console">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="icon">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -287,16 +287,48 @@
                 </button>
               </div>
             </div>
-            <textarea id="python-console" class="console-input" placeholder="Type your Python code here..."></textarea>
-            <button id="execute-btn" class="btn execute-btn">Execute</button>
-            <div id="console-output" class="console-output"></div>
+            <div class="editor-container">
+              <textarea id="python-console" class="console-input" placeholder="Type your Python code here..."
+                aria-label="Python Console"></textarea>
+            </div>
+            <div class="console-actions">
+              <button id="execute-btn" class="btn execute-btn" title="Execute Code"
+                aria-label="Execute Code">Execute</button>
+              <button id="clear-btn" class="btn clear-btn" title="Clear Console"
+                aria-label="Clear Console">Clear</button>
+              <button id="theme-toggle-btn" class="btn theme-toggle-btn" title="Toggle Theme"
+                aria-label="Toggle Theme">🌙</button>
+            </div>
+            <div id="console-output" class="console-output" aria-live="polite" aria-atomic="true"></div>
           </div>
         </div>
 
-        <!-- CSS Enhancements (Add to your existing CSS file or include within a <style> tag) -->
+        <!-- CSS Enhancements -->
         <style>
+          /* Theme Variables */
+          :root {
+            --background-color: #1e1e1e;
+            --text-color: #d4d4d4;
+            --button-bg: #007acc;
+            --button-hover-bg: #005fa3;
+            --console-bg: #272727;
+            --editor-bg: #1e1e1e;
+            --editor-text-color: #d4d4d4;
+          }
+
+          [data-theme="light"] {
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --button-bg: #154F48;
+            --button-hover-bg: #0e3d38;
+            --console-bg: #f1f1f1;
+            --editor-bg: #ffffff;
+            --editor-text-color: #333;
+          }
+
           .live-console-section {
-            background: #f9f9f9;
+            background: var(--background-color);
+            color: var(--text-color);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -306,7 +338,6 @@
           .section-title {
             font-size: 1.8em;
             margin-bottom: 15px;
-            color: #154F48;
             text-align: center;
           }
 
@@ -323,6 +354,10 @@
             background: #e2e2e2;
             padding: 10px;
             border-radius: 6px;
+          }
+
+          [data-theme="light"] .console-header {
+            background: #ddd;
           }
 
           .console-title {
@@ -342,40 +377,69 @@
             transform: scale(1.1);
           }
 
+          .editor-container {
+            position: relative;
+          }
+
           .console-input {
             width: 100%;
             height: 200px;
             padding: 10px;
-            border: 2px solid #154F48;
+            border: 2px solid #007acc;
             border-radius: 6px;
             resize: vertical;
             font-family: 'Courier New', Courier, monospace;
             font-size: 1em;
+            background: var(--editor-bg);
+            color: var(--editor-text-color);
+            caret-color: #ffffff;
           }
 
-          .execute-btn {
-            align-self: flex-end;
-            background-color: #154F48;
+          [data-theme="light"] .console-input {
+            background: var(--editor-bg);
+            color: var(--editor-text-color);
+          }
+
+          .console-input:focus {
+            outline: none;
+            border-color: var(--button-bg);
+          }
+
+          .console-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+          }
+
+          .execute-btn,
+          .clear-btn,
+          .theme-toggle-btn {
+            background-color: var(--button-bg);
             color: #fff;
             padding: 10px 20px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-size: 1em;
           }
 
-          .execute-btn:hover {
-            background-color: #0e3d38;
+          .execute-btn:hover,
+          .clear-btn:hover,
+          .theme-toggle-btn:hover {
+            background-color: var(--button-hover-bg);
           }
 
           .console-output {
-            background: #272727;
-            color: #f1f1f1;
+            background: var(--console-bg);
+            color: var(--text-color);
             padding: 15px;
             border-radius: 6px;
             min-height: 100px;
             overflow-y: auto;
             font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
           }
 
           /* Responsive Design */
@@ -384,31 +448,113 @@
               height: 150px;
             }
 
-            .execute-btn {
+            .execute-btn,
+            .clear-btn,
+            .theme-toggle-btn {
               width: 100%;
             }
           }
+
+          /* Minimizing Console */
+          .minimized .console-input,
+          .minimized .console-actions,
+          .minimized .console-output {
+            display: none;
+          }
+
+          .minimized .console-header {
+            cursor: pointer;
+          }
         </style>
 
-        <!-- JavaScript Enhancements (Add to your existing JS file or include within a <script> tag) -->
+        <!-- JavaScript Enhancements -->
         <script>
-          document.getElementById('execute-btn').addEventListener('click', function () {
-            const code = document.getElementById('python-console').value;
-            // Placeholder for executing Python code
-            // Implement your backend API call here to execute the code
-            // For demonstration, we'll just display the code
-            document.getElementById('console-output').innerText = `Executed Code:\n${code}`;
+          // Theme Toggle Functionality
+          const themeToggleBtn = document.getElementById('theme-toggle-btn');
+          const root = document.documentElement;
+
+          themeToggleBtn.addEventListener('click', () => {
+            if (root.getAttribute('data-theme') === 'light') {
+              root.setAttribute('data-theme', 'dark');
+              themeToggleBtn.textContent = '🌞';
+            } else {
+              root.setAttribute('data-theme', 'light');
+              themeToggleBtn.textContent = '🌙';
+            }
           });
 
-          // Optional: Add functionality for minimize and close buttons
-          document.querySelector('.minimize-btn').addEventListener('click', function () {
+          // Execute Code Button Functionality
+          document.getElementById('execute-btn').addEventListener('click', function () {
+            const code = document.getElementById('python-console').value;
+            if (code.trim() === '') {
+              alert("Please enter some Python code to execute.");
+              return;
+            }
+
+            // Placeholder for executing Python code securely via backend
+            // Implement your backend API call here
+
+            // For demonstration, we'll display the code as executed
+            const outputArea = document.getElementById('console-output');
+            outputArea.innerText += `>>> ${code}\nExecuted Code Output:\n${"Result Placeholder"}\n`;
+            document.getElementById('python-console').value = '';
+          });
+
+          // Clear Console Button Functionality
+          document.getElementById('clear-btn').addEventListener('click', function () {
+            document.getElementById('console-output').innerText = '';
+          });
+
+          // Toggle Minimize Functionality
+          document.querySelector('.toggle-terminal-btn').addEventListener('click', function () {
             const consoleSection = document.querySelector('.live-console-section');
             consoleSection.classList.toggle('minimized');
           });
 
+          // Close Console Functionality
           document.querySelector('.close-btn').addEventListener('click', function () {
             const consoleSection = document.querySelector('.live-console-section');
             consoleSection.style.display = 'none';
+          });
+
+          // Keyboard Shortcuts (Ctrl + Enter to execute)
+          document.getElementById('python-console').addEventListener('keydown', function (event) {
+            if (event.ctrlKey && event.key === 'Enter') {
+              event.preventDefault();
+              document.getElementById('execute-btn').click();
+            }
+          });
+
+          // Command History (Up and Down Arrows)
+          const history = [];
+          let historyIndex = -1;
+
+          document.getElementById('python-console').addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowUp') {
+              if (history.length > 0 && historyIndex < history.length - 1) {
+                historyIndex++;
+                this.value = history[history.length - 1 - historyIndex];
+              }
+              event.preventDefault();
+            }
+            if (event.key === 'ArrowDown') {
+              if (historyIndex > 0) {
+                historyIndex--;
+                this.value = history[history.length - 1 - historyIndex];
+              } else {
+                historyIndex = -1;
+                this.value = '';
+              }
+              event.preventDefault();
+            }
+          });
+
+          document.getElementById('execute-btn').addEventListener('click', function () {
+            const code = document.getElementById('python-console').value;
+            if (code.trim() !== '') {
+              history.push(code);
+              historyIndex = history.length;
+            }
           });
         </script>
 
