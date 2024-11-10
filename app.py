@@ -5,7 +5,8 @@ import subprocess
 import webbrowser
 import tkinter as tk
 from tkinter import messagebox
-from flask import Flask, render_template, redirect, url_for, jsonify
+from flask import Flask, render_template, redirect, url_for, jsonify, request
+from flask_cors import CORS
 import logging
 import os
 from pathlib import Path
@@ -13,7 +14,6 @@ import sys
 import signal
 import shutil
 import requests
-from flask import request, jsonify
 
 # ----------------------------
 # Configuration and Constants
@@ -58,8 +58,6 @@ logging.info("Application starting...")
 # ----------------------------
 # Flask App Initialization
 # ----------------------------
-
-from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -120,13 +118,41 @@ def is_connected(host=DEFAULT_HOST, port=DEFAULT_PORT, timeout=DEFAULT_TIMEOUT):
         logging.debug("Internet connection check: OFFLINE.")
         return False
 
+def is_yarn_installed():
+    """
+    Check if Yarn is installed and accessible.
+    """
+    return shutil.which("yarn") is not None or shutil.which("yarn.cmd") is not None
+
+def get_yarn_command():
+    """
+    Return the appropriate yarn command based on the operating system.
+    """
+    if platform.system() == "Windows":
+        return ["yarn.cmd", "start"]
+    else:
+        return ["yarn", "start"]
+
+def is_electron_app_ready(electron_dir):
+    """
+    Ensure that the Electron app directory contains necessary files.
+    """
+    required_files = ['package.json', 'yarn.lock']
+    for file in required_files:
+        if not (electron_dir / file).exists():
+            logging.error(f"Required file '{file}' not found in {electron_dir}.")
+            return False
+    return True
+
 def open_electron():
     """
     Launch the Electron application.
     """
     try:
-        current_dir = Path(__file__).parent
+        current_dir = Path(__file__).parent.resolve()
         electron_dir = current_dir / ELECTRON_APP_DIR
+        logging.debug(f"Current directory: {current_dir}")
+        logging.debug(f"Electron app directory: {electron_dir}")
 
         if not electron_dir.exists():
             msg = f"Electron app directory not found: {electron_dir}"
@@ -134,16 +160,59 @@ def open_electron():
             messagebox.showerror("Error", msg)
             return
 
-        # Check if yarn is installed
-        if not shutil.which("yarn"):
-            msg = "Yarn is not installed or not found in PATH."
+        if not is_electron_app_ready(electron_dir):
+            msg = (
+                f"The Electron app directory is missing required files.\n"
+                f"Please ensure that {', '.join(['package.json', 'yarn.lock'])} exist in {electron_dir}."
+            )
             logging.error(msg)
             messagebox.showerror("Error", msg)
             return
 
+        if not is_yarn_installed():
+            msg = (
+                "Yarn is not installed or not found in PATH.\n"
+                "Please install Yarn from https://classic.yarnpkg.com/en/docs/install#windows-stable and ensure it's added to your PATH."
+                "\n\nWould you like to visit the Yarn installation page now?"
+            )
+            logging.error("Yarn not found.")
+            answer = messagebox.askyesno("Yarn Not Found", msg)
+            if answer:
+                webbrowser.open("https://classic.yarnpkg.com/en/docs/install#windows-stable")
+            return
+
         logging.info(f"Launching Electron app from {electron_dir}...")
-        subprocess.Popen(['yarn', 'start'], cwd=electron_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        logging.info("Electron app launched successfully.")
+        yarn_command = get_yarn_command()
+        logging.debug(f"Yarn command: {yarn_command}")
+
+        process = subprocess.Popen(
+            yarn_command,
+            cwd=electron_dir,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            shell=False  # Recommended to set shell=False for security
+        )
+
+        # Optionally, read stdout and stderr in real-time
+        def log_subprocess_output(proc):
+            for line in proc.stdout:
+                logging.info(f"Electron: {line.strip()}")
+            for line in proc.stderr:
+                logging.error(f"Electron Error: {line.strip()}")
+
+        threading.Thread(target=log_subprocess_output, args=(process,), daemon=True).start()
+
+        # Wait for the Electron process to complete
+        process.wait()
+
+        if process.returncode != 0:
+            msg = f"Electron app failed to start. Please check the logs for more details."
+            logging.error(msg)
+            messagebox.showerror("Error", msg)
+        else:
+            logging.info("Electron app launched successfully.")
+
     except Exception as e:
         logging.error(f"Failed to launch Electron app: {e}")
         messagebox.showerror("Error", f"Failed to launch Electron app: {e}")
@@ -206,8 +275,13 @@ def home():
 def proxy_to_https():
     user_ip = request.remote_addr
     headers = {'X-Forwarded-For': user_ip}
-    response = requests.get("https://targetsite.com/api", headers=headers)
-    return jsonify(response.json())
+    try:
+        response = requests.get("https://targetsite.com/api", headers=headers)
+        response.raise_for_status()
+        return jsonify(response.json())
+    except requests.RequestException as e:
+        logging.error(f"Proxy request failed: {e}")
+        return jsonify({"error": "Failed to fetch data from target site."}), 500
 
 @app.route('/online')
 def online_features():
