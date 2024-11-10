@@ -266,90 +266,308 @@
               fill="#ccc" />
           </svg>
         </div>
+        <!-- Enhanced Project Manager Section -->
+        <div class="project-manager-section">
+          <h2 class="section-title">Project Manager</h2>
+          <div class="project-manager-container">
+            <div class="project-list">
+              <div class="project-header">
+                <h3>Your Projects</h3>
+                <button class="btn add-project-btn" title="Add New Project">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                </button>
+              </div>
+              <ul class="projects">
+                <!-- Example Project Item -->
+                <li class="project-item">
+                  <span class="project-name">Project Alpha</span>
+                  <div class="project-actions">
+                    <button class="btn edit-btn" title="Edit Project">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.232 5.232l3.536 3.536M19.768 3.232a2.121 2.121 0 113 3L7 19l-4 1 1-4L19.768 3.232z" />
+                      </svg>
+                    </button>
+                    <button class="btn delete-btn" title="Delete Project">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </li>
+                <!-- Add more project items as needed -->
+              </ul>
+            </div>
+            <div class="project-details">
+              <h3>Project Details</h3>
+              <div class="details-content">
+                <!-- Project details will be displayed here -->
+                <p>Select a project to view its details.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS Enhancements (Add to your existing CSS file or include within a <style> tag) -->
+        <style>
+          .project-manager-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+          }
+
+          .section-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #154F48;
+            text-align: center;
+          }
+
+          .project-manager-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+          }
+
+          .project-list,
+          .project-details {
+            flex: 1;
+            min-width: 300px;
+          }
+
+          .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+          }
+
+          .project-header h3 {
+            margin: 0;
+            color: #333;
+          }
+
+          .add-project-btn {
+            background-color: #154F48;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+          }
+
+          .add-project-btn:hover {
+            background-color: #0e3d38;
+          }
+
+          .projects {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+          }
+
+          .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f1f1f1;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+          }
+
+          .project-item:hover {
+            background: #e2e2e2;
+          }
+
+          .project-name {
+            font-size: 1em;
+            color: #333;
+          }
+
+          .project-actions .btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: transform 0.2s;
+          }
+
+          .project-actions .btn:hover {
+            transform: scale(1.2);
+          }
+
+          .project-details {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+          }
+
+          .project-details h3 {
+            margin-top: 0;
+            color: #333;
+          }
+
+          .details-content {
+            margin-top: 10px;
+            color: #555;
+          }
+
+          /* Responsive Design */
+          @media (max-width: 768px) {
+            .project-manager-container {
+              flex-direction: column;
+            }
+          }
+        </style>
+
+        <!-- JavaScript Enhancements (Add to your existing JS file or include within a <script> tag) -->
+        <script>
+          // Example: Add Project Button Functionality
+          document.querySelector('.add-project-btn').addEventListener('click', function () {
+            const projectName = prompt("Enter the new project name:");
+            if (projectName) {
+              const projectList = document.querySelector('.projects');
+              const newProject = document.createElement('li');
+              newProject.classList.add('project-item');
+              newProject.innerHTML = `
+        <span class="project-name">${projectName}</span>
+        <div class="project-actions">
+          <button class="btn edit-btn" title="Edit Project">
+            <!-- Edit Icon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M19.768 3.232a2.121 2.121 0 113 3L7 19l-4 1 1-4L19.768 3.232z" />
+            </svg>
+          </button>
+          <button class="btn delete-btn" title="Delete Project">
+            <!-- Delete Icon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      `;
+              projectList.appendChild(newProject);
+              attachProjectActions(newProject);
+            }
+          });
+
+          // Function to attach edit and delete actions to a project item
+          function attachProjectActions(projectItem) {
+            const editBtn = projectItem.querySelector('.edit-btn');
+            const deleteBtn = projectItem.querySelector('.delete-btn');
+
+            editBtn.addEventListener('click', function () {
+              const newName = prompt("Edit project name:", projectItem.querySelector('.project-name').innerText);
+              if (newName) {
+                projectItem.querySelector('.project-name').innerText = newName;
+              }
+            });
+
+            deleteBtn.addEventListener('click', function () {
+              if (confirm("Are you sure you want to delete this project?")) {
+                projectItem.remove();
+              }
+            });
+          }
+
+          // Attach actions to existing project items on page load
+          document.querySelectorAll('.project-item').forEach(attachProjectActions);
+        </script>
 
       </div>
     </div>
   </div>
   <!-- Empty divs to load modal content -->
-<!-- Login Modal -->
-<div id="login-modal" class="modal">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="log-in-box">
-          <form>
-            <div>
-              <h3>Welcome back</h3>
-            </div>
-            <input type="text" placeholder="UserName" class="input" />
-            <input type="password" placeholder="Password" class="input" />
-            <a>Forgot Password?</a>
-            <button type="submit" class="btn">Log In</button>
-          </form>
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="log-in-box">
+            <form>
+              <div>
+                <h3>Welcome back</h3>
+              </div>
+              <input type="text" placeholder="UserName" class="input" />
+              <input type="password" placeholder="Password" class="input" />
+              <a>Forgot Password?</a>
+              <button type="submit" class="btn">Log In</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Signup Modal -->
-<div id="signup-modal" class="modal">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="sign-up-box">
-          <form id="signup-form">
-            <div>
-              <h3>Create an account</h3>
-            </div>
-            <div class="inputs">
-              <input type="text" id="username" name="username" placeholder="Username" class="input" required />
-              <input type="email" id="email" name="email" placeholder="Email" class="input" required />
-              <input type="password" id="password" name="password" placeholder="Password" class="input" required />
-              <input type="password" id="verify-password" name="verify_password" placeholder="Verify Password" class="input" required />
-            </div>
-            <button type="submit" class="btn">Sign Up</button>
-            <div id="signup-message" class="message"></div>
-          </form>
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="sign-up-box">
+            <form id="signup-form">
+              <div>
+                <h3>Create an account</h3>
+              </div>
+              <div class="inputs">
+                <input type="text" id="username" name="username" placeholder="Username" class="input" required />
+                <input type="email" id="email" name="email" placeholder="Email" class="input" required />
+                <input type="password" id="password" name="password" placeholder="Password" class="input" required />
+                <input type="password" id="verify-password" name="verify_password" placeholder="Verify Password"
+                  class="input" required />
+              </div>
+              <button type="submit" class="btn">Sign Up</button>
+              <div id="signup-message" class="message"></div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
   <script>
-// Toggle modal visibility with modal ID
-function toggleModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (modal.classList.contains('visible')) {
-    closeModal(modalId);
-  } else {
-    showModal(modalId);
-  }
-}
-
-// Show modal
-function showModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.classList.add('visible');
-}
-
-// Close modal
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.classList.remove('visible');
-}
-
-// Close modal when clicking outside of the modal dialog
-document.querySelectorAll('.modal').forEach(modal => {
-  modal.addEventListener('click', function (event) {
-    // Check if the click is outside the .modal-dialog
-    if (!event.target.closest('.modal-dialog')) {
-      closeModal(modal.id);
+    // Toggle modal visibility with modal ID
+    function toggleModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal.classList.contains('visible')) {
+        closeModal(modalId);
+      } else {
+        showModal(modalId);
+      }
     }
-  });
-});
+
+    // Show modal
+    function showModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.add('visible');
+    }
+
+    // Close modal
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.remove('visible');
+    }
+
+    // Close modal when clicking outside of the modal dialog
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', function (event) {
+        // Check if the click is outside the .modal-dialog
+        if (!event.target.closest('.modal-dialog')) {
+          closeModal(modal.id);
+        }
+      });
+    });
 
 
   </script>

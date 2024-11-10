@@ -266,90 +266,236 @@
               fill="#ccc" />
           </svg>
         </div>
+        <!-- Enhanced Live Console Section -->
+        <div class="live-console-section">
+          <h2 class="section-title">Live Python Console</h2>
+          <div class="console-container">
+            <div class="console-header">
+              <span class="console-title">Python Interactive Shell</span>
+              <div class="console-controls">
+                <button class="btn minimize-btn" title="Minimize Console">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+                <button class="btn close-btn" title="Close Console">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <textarea id="python-console" class="console-input" placeholder="Type your Python code here..."></textarea>
+            <button id="execute-btn" class="btn execute-btn">Execute</button>
+            <div id="console-output" class="console-output"></div>
+          </div>
+        </div>
+
+        <!-- CSS Enhancements (Add to your existing CSS file or include within a <style> tag) -->
+        <style>
+          .live-console-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+          }
+
+          .section-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #154F48;
+            text-align: center;
+          }
+
+          .console-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          .console-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e2e2e2;
+            padding: 10px;
+            border-radius: 6px;
+          }
+
+          .console-title {
+            font-weight: bold;
+            color: #333;
+          }
+
+          .console-controls .btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s;
+          }
+
+          .console-controls .btn:hover {
+            transform: scale(1.1);
+          }
+
+          .console-input {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 2px solid #154F48;
+            border-radius: 6px;
+            resize: vertical;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1em;
+          }
+
+          .execute-btn {
+            align-self: flex-end;
+            background-color: #154F48;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+          }
+
+          .execute-btn:hover {
+            background-color: #0e3d38;
+          }
+
+          .console-output {
+            background: #272727;
+            color: #f1f1f1;
+            padding: 15px;
+            border-radius: 6px;
+            min-height: 100px;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+          }
+
+          /* Responsive Design */
+          @media (max-width: 768px) {
+            .console-input {
+              height: 150px;
+            }
+
+            .execute-btn {
+              width: 100%;
+            }
+          }
+        </style>
+
+        <!-- JavaScript Enhancements (Add to your existing JS file or include within a <script> tag) -->
+        <script>
+          document.getElementById('execute-btn').addEventListener('click', function () {
+            const code = document.getElementById('python-console').value;
+            // Placeholder for executing Python code
+            // Implement your backend API call here to execute the code
+            // For demonstration, we'll just display the code
+            document.getElementById('console-output').innerText = `Executed Code:\n${code}`;
+          });
+
+          // Optional: Add functionality for minimize and close buttons
+          document.querySelector('.minimize-btn').addEventListener('click', function () {
+            const consoleSection = document.querySelector('.live-console-section');
+            consoleSection.classList.toggle('minimized');
+          });
+
+          document.querySelector('.close-btn').addEventListener('click', function () {
+            const consoleSection = document.querySelector('.live-console-section');
+            consoleSection.style.display = 'none';
+          });
+        </script>
 
       </div>
     </div>
   </div>
   <!-- Empty divs to load modal content -->
-<!-- Login Modal -->
-<div id="login-modal" class="modal">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="log-in-box">
-          <form>
-            <div>
-              <h3>Welcome back</h3>
-            </div>
-            <input type="text" placeholder="UserName" class="input" />
-            <input type="password" placeholder="Password" class="input" />
-            <a>Forgot Password?</a>
-            <button type="submit" class="btn">Log In</button>
-          </form>
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="log-in-box">
+            <form>
+              <div>
+                <h3>Welcome back</h3>
+              </div>
+              <input type="text" placeholder="UserName" class="input" />
+              <input type="password" placeholder="Password" class="input" />
+              <a>Forgot Password?</a>
+              <button type="submit" class="btn">Log In</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Signup Modal -->
-<div id="signup-modal" class="modal">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="sign-up-box">
-          <form id="signup-form">
-            <div>
-              <h3>Create an account</h3>
-            </div>
-            <div class="inputs">
-              <input type="text" id="username" name="username" placeholder="Username" class="input" required />
-              <input type="email" id="email" name="email" placeholder="Email" class="input" required />
-              <input type="password" id="password" name="password" placeholder="Password" class="input" required />
-              <input type="password" id="verify-password" name="verify_password" placeholder="Verify Password" class="input" required />
-            </div>
-            <button type="submit" class="btn">Sign Up</button>
-            <div id="signup-message" class="message"></div>
-          </form>
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="sign-up-box">
+            <form id="signup-form">
+              <div>
+                <h3>Create an account</h3>
+              </div>
+              <div class="inputs">
+                <input type="text" id="username" name="username" placeholder="Username" class="input" required />
+                <input type="email" id="email" name="email" placeholder="Email" class="input" required />
+                <input type="password" id="password" name="password" placeholder="Password" class="input" required />
+                <input type="password" id="verify-password" name="verify_password" placeholder="Verify Password"
+                  class="input" required />
+              </div>
+              <button type="submit" class="btn">Sign Up</button>
+              <div id="signup-message" class="message"></div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
   <script>
-// Toggle modal visibility with modal ID
-function toggleModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (modal.classList.contains('visible')) {
-    closeModal(modalId);
-  } else {
-    showModal(modalId);
-  }
-}
-
-// Show modal
-function showModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.classList.add('visible');
-}
-
-// Close modal
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.classList.remove('visible');
-}
-
-// Close modal when clicking outside of the modal dialog
-document.querySelectorAll('.modal').forEach(modal => {
-  modal.addEventListener('click', function (event) {
-    // Check if the click is outside the .modal-dialog
-    if (!event.target.closest('.modal-dialog')) {
-      closeModal(modal.id);
+    // Toggle modal visibility with modal ID
+    function toggleModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal.classList.contains('visible')) {
+        closeModal(modalId);
+      } else {
+        showModal(modalId);
+      }
     }
-  });
-});
+
+    // Show modal
+    function showModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.add('visible');
+    }
+
+    // Close modal
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.remove('visible');
+    }
+
+    // Close modal when clicking outside of the modal dialog
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', function (event) {
+        // Check if the click is outside the .modal-dialog
+        if (!event.target.closest('.modal-dialog')) {
+          closeModal(modal.id);
+        }
+      });
+    });
 
 
   </script>

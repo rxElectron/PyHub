@@ -1,8 +1,6 @@
-
-from flask import Blueprint
-
-profile = Blueprint('profile', __name__)
+from . import profile
+from flask import render_template
 
 @profile.route('/profile')
 def profile_page():
-    return "Welcome to the Profile page!"
+    return render_template('profile.html')

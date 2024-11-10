@@ -1,8 +1,6 @@
-
-from flask import Blueprint
-
-settings = Blueprint('settings', __name__)
+from . import settings
+from flask import render_template
 
 @settings.route('/settings')
 def settings_page():
-    return "Welcome to the Settings page!"
+    return render_template('settings.html')

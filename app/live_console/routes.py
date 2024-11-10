@@ -1,8 +1,6 @@
-
-from flask import Blueprint
-
-live_console = Blueprint('live_console', __name__)
+from . import live_console
+from flask import render_template
 
 @live_console.route('/live_console')
 def live_console_page():
-    return "Welcome to the Live Console page!"
+    return render_template('live_console.html')
