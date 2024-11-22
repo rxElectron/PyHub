@@ -6,16 +6,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/live_consoleStyle.css') }}"> -->
   <link rel="stylesheet" type="text/css" href="../static/css/live_consoleStyle.css">
-  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/indexStyle.css') }}"> -->
 
-  <script src="../static/js/indexScript.js"></script>
+  <!-- xterm.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+
+  <!-- CodeMirror CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/show-hint.min.css">
+
+  <!-- xterm.js JS -->
+  <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js" defer></script>
+
+  <!-- CodeMirror JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/show-hint.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/python-hint.min.js" defer></script>
+
+  <!-- SocketIO -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"
+    integrity="sha512-oV3mA0C2q8cFgZ1J0uBXvgH6hlY3bSOkJZdzfUUF2Z54+f2LQ69vj1u38AtA4mnV31jryUSXZjx1m/6b63k4ow=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+
+  <!-- Main JS -->
+  <!-- <script src="{{ url_for('static', filename='js/live_consoleScript.js') }}" defer></script> -->
   <script src="../static/js/live_consoleScript.js"></script>
-  <script src="{{ url_for('static', filename='js/live_consoleScript.js') }}" defer></script>
-  <title>Console</title>
+
+  <title>Live Console</title>
 </head>
 
-<body>
+<body class="dark-mode">
   <div class="container">
     <div class="top-nav">
       <h1 class="python-hub">
@@ -200,7 +223,65 @@
           <span>Settings</span>
         </button>
       </div>
-      <div class="sum-box">
+
+      <div class="tab-container">
+        <ul class="tabs" id="tabs">
+          <li class="tab active" data-tab="tab-1">Python Console 1</li>
+        </ul>
+        <div class="tab-content" id="tab-content">
+          <div class="tab-pane active" id="tab-1">
+            <!-- Python Console Content -->
+            <div class="sum-box">
+              <div class="box">
+                <div class="top">
+                  <span>
+                    <button class="reset-btn">
+                      <p>Py.Console</p>
+                    </button>
+                    <button class="reset-btn" onclick="closeTab('tab-1')">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="icons">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+                <div class="shell">
+                  <p>Python Interactive Shell</p>
+                  <div class="btns">
+                    <button class="w-btn">AI</button>
+                    <button class="w-btn" onclick="toggleEnhancer()">
+                      <!-- SVG مشابه -->
+                    </button>
+                  </div>
+                </div>
+
+                <form>
+                  <div id="editor-1" class="console-input"></div>
+                </form>
+                <div class="w-btns">
+                  <button class="w-btn" id="reset-btn-1">
+                    <!-- Reset Icon SVG -->
+                  </button>
+                  <div class="btns">
+                    <button class="w-btn btn1" id="execute-btn-1">Execute</button>
+                    <button class="w-btn" id="clear-btn-1">Clear</button>
+                    <button class="w-btn" id="save-btn-1">
+                      <!-- Save Icon SVG -->
+                    </button>
+                    <button class="w-btn" id="load-btn-1">Load</button>
+                  </div>
+                </div>
+                <div id="console-output-1" class="result"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="w-btn" id="new-tab-btn">+</button>
+      </div>
+
+
+      <!-- <div class="sum-box">
 
         <div class="box">
           <div class="top">
@@ -209,7 +290,7 @@
                 <p>Py.Console</p>
               </button>
               <button class="reset-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                <svg xmlnsW="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="icons">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
@@ -248,7 +329,6 @@
           </div>
 
           <form>
-            <!-- <input class="inputs" placeholder="Type Your Python Code Here..."> -->
             <textarea id="python-console" class="console-input" placeholder="Type your Python code here..."
               aria-label="Python Console"></textarea>
           </form>
@@ -257,28 +337,52 @@
                 stroke-width="1.5" stroke="currentColor" class="icons">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>
-            </button>
-            <div class="btns">
-              <!-- Execute Button with ID -->
-              <button class="w-btn btn1" id="execute-btn">Execute</button>
+            </button> -->
 
-              <!-- Clear Button with ID -->
-              <button class="w-btn" id="clear-btn">Clear</button>
-              <button class="w-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icons">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <!-- Output Div with ID -->
-          <div id="console-output" class="result"></div>
-        </div>
+
+      <!-- <div class="btns"> -->
+      <!-- Execute Button with ID  -->
+      <!-- <button class="w-btn btn1" id="execute-btn">Execute</button> -->
+
+      <!-- Clear Button with ID -->
+      <!-- <button class="w-btn" id="clear-btn">Clear</button> -->
+
+      <!-- Toggle Theme Button with ID -->
+      <!-- <button class="w-btn" id="theme-toggle-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" -->
+      viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icons">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+      <!-- </svg> -->
+      <!-- </button> -->
+
+      <!-- Save Button with ID -->
+      <!-- <button class="w-btn" id="save-btn"> -->
+      <!-- save icon SVG -->
+      <!-- </button> -->
+
+      <!-- Load Button with ID -->
+      <!-- <button class="w-btn" id="load-btn">Load</button> -->
+
+      <!-- </div> -->
+
+
+      <!-- </div> -->
+      <!-- Output Div with ID -->
+      <!-- <div id="console-output" class="result"></div> -->
+      <!-- </div>
+
       </div>
+
+    </div>
+    <button class="w-btn" id="new-tab-btn">+</button>
+  </div>
+
+    </div>
+  -->
     </div>
   </div>
-  </div>
+
+
   <!-- Empty divs to load modal content -->
   <!-- Empty divs to load modal content -->
   <!-- Login Modal -->
@@ -287,15 +391,7 @@
       <div class="modal-content">
         <div class="modal-body">
           <div class="log-in-box">
-            <form id="login-form" style="
-          display: flex;
-          width: 24rem;
-          flex-wrap: nowrap;
-          flex-direction: column;
-          align-items: stretch;
-          align-content: space-between;
-          justify-content: space-between;
-      ">
+            <form id="login-form" class="login-form-fix">
               <div>
                 <h3>Welcome back</h3>
               </div>

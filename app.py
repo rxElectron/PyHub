@@ -1,23 +1,26 @@
 # -*- coding: utf-8 -*-
 # ----------------------------------------------------------------
-# Copyright 2024    PyHub/app.py 
+# PyHub/app.py
+# ----------------------------------------------------------------
 
 import socket
-import threading
+import requests
 import platform
 import subprocess
 import webbrowser
 import tkinter as tk
 from tkinter import messagebox
-from flask import Flask, render_template, redirect, url_for, jsonify, request
+from flask_socketio import SocketIO
+from flask import Flask, render_template, redirect, url_for, jsonify
 from flask_cors import CORS
 import logging
-import os
 from pathlib import Path
 import sys
 import signal
 import shutil
-import requests
+import shlex
+import threading
+import base64  # اضافه کردن ماژول base64
 
 # ----------------------------
 # Configuration and Constants
@@ -43,7 +46,7 @@ def setup_logging():
     log_file = Path(__file__).parent / "app.log"
 
     # File handler
-    file_handler = logging.FileHandler(log_file)
+    file_handler = logging.FileHandler(log_file, encoding='utf-8')
     file_handler.setFormatter(log_formatter)
     file_handler.setLevel(logging.INFO)
 
@@ -62,12 +65,13 @@ logging.info("Application starting...")
 # ----------------------------
 # Flask App Initialization
 # ----------------------------
-from flask_cors import CORS
 app = Flask(__name__)
-CORS(app)
 
 # Allow CORS for requests from your local server and the 0xelectron.ir domain
 CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5000", "https://0xelectron.ir"]}})
+
+# راه‌اندازی SocketIO با تنظیمات CORS متناسب
+socketio = SocketIO(app, cors_allowed_origins=["http://127.0.0.1:5000", "https://0xelectron.ir"])
 
 # Load configurations from config.py
 try:
@@ -201,10 +205,13 @@ def open_electron():
 
         # Optionally, read stdout and stderr in real-time
         def log_subprocess_output(proc):
-            for line in proc.stdout:
-                logging.info(f"Electron: {line.strip()}")
-            for line in proc.stderr:
-                logging.error(f"Electron Error: {line.strip()}")
+            try:
+                for line in proc.stdout:
+                    logging.info(f"Electron: {line.strip()}")
+                for line in proc.stderr:
+                    logging.error(f"Electron Error: {line.strip()}")
+            except Exception as e:
+                logging.error(f"Error reading Electron process output: {e}")
 
         threading.Thread(target=log_subprocess_output, args=(process,), daemon=True).start()
 
@@ -257,7 +264,7 @@ def start_flask():
         log.setLevel(logging.ERROR)
 
         logging.info(f"Starting Flask server on port {FLASK_PORT}...")
-        app.run(debug=False, port=FLASK_PORT, use_reloader=False)
+        socketio.run(app, debug=False, port=FLASK_PORT, use_reloader=False)
     except Exception as e:
         logging.error(f"Failed to start Flask server: {e}")
 
@@ -323,11 +330,11 @@ def main():
     flask_thread = threading.Thread(target=start_flask, daemon=True)
     flask_thread.start()
 
-    # Wait briefly to ensure Flask server starts before opening browser
+    # Wait briefly to ensure Flask server starts before opening browser or Electron
     threading.Event().wait(1)
 
     # Prompt user to select mode
-    prompt_user()
+    threading.Thread(target=prompt_user, daemon=True).start()
 
     # Keep the main thread alive while Flask server is running
     try:
