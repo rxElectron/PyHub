@@ -106,3 +106,7 @@ function toggleEnhancer() {
 }
 
 
+// Function to navigate back
+function navigateBack() {
+  window.history.back();
+}

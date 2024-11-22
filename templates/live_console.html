@@ -259,21 +259,21 @@
               </svg>
             </button>
             <div class="btns">
-<!-- Execute Button with ID -->
-<button class="w-btn btn1" id="execute-btn">Execute</button>
+              <!-- Execute Button with ID -->
+              <button class="w-btn btn1" id="execute-btn">Execute</button>
 
-<!-- Clear Button with ID -->
-<button class="w-btn" id="clear-btn">Clear</button>
-              <button class="w-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                  stroke-width="1.5" stroke="currentColor" class="icons">
+              <!-- Clear Button with ID -->
+              <button class="w-btn" id="clear-btn">Clear</button>
+              <button class="w-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icons">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
                 </svg>
               </button>
             </div>
           </div>
-<!-- Output Div with ID -->
-<div id="console-output" class="result"></div>
+          <!-- Output Div with ID -->
+          <div id="console-output" class="result"></div>
         </div>
       </div>
     </div>
@@ -383,81 +383,6 @@
         }
       });
     });
-
-    // Functions to handle console operations
-    function executeCode() {
-      const code = document.getElementById('python-console').value;
-      fetch('/execute', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ code })
-      })
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('console-output').innerText = data.output;
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-
-    function clearConsole() {
-      document.getElementById('python-console').value = '';
-      document.getElementById('console-output').innerText = '';
-    }
-
-    function resetConsole() {
-      clearConsole();
-      // Additional reset logic if needed
-    }
-
-    // Event listeners
-    document.getElementById('execute-btn').addEventListener('click', function (event) {
-      event.preventDefault();
-      executeCode();
-    });
-
-    document.getElementById('clear-btn').addEventListener('click', function (event) {
-      event.preventDefault();
-      clearConsole();
-    });
-
-    document.getElementById('save-btn').addEventListener('click', function (event) {
-      event.preventDefault();
-      saveCode();
-    });
-
-    function saveCode() {
-      const code = document.getElementById('python-console').value;
-      // Implement save functionality, e.g., send to backend or download as file
-      fetch('/save_code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ code })
-      })
-        .then(response => response.json())
-        .then(data => {
-          alert('Code saved successfully!');
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-
-    // Placeholder functions for AI and Enhancer buttons
-    function toggleAI() {
-      // Implement AI feature toggle
-      alert('AI Features toggled.');
-    }
-
-    function toggleEnhancer() {
-      // Implement Enhancer feature toggle
-      alert('Enhancer toggled.');
-    }
   </script>
 </body>
 
