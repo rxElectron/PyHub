@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# ----------------------------------------------------------------
+# Copyright 2024    PyHub/config.py 
+
 import os
 
 class Config:

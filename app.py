@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# ----------------------------------------------------------------
+# Copyright 2024    PyHub/app.py 
+
 import socket
 import threading
 import platform
@@ -58,8 +62,9 @@ logging.info("Application starting...")
 # ----------------------------
 # Flask App Initialization
 # ----------------------------
-
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 # Allow CORS for requests from your local server and the 0xelectron.ir domain
 CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5000", "https://0xelectron.ir"]}})

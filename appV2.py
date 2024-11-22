@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# ----------------------------------------------------------------
+# Copyright 2024    PyHub/appV2.py 
+
 import socket
 import threading
 import platform
