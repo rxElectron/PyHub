@@ -20,7 +20,7 @@ import signal
 import shutil
 import shlex
 import threading
-import base64  # اضافه کردن ماژول base64
+import base64  # Added base64 module
 
 # ----------------------------
 # Configuration and Constants
@@ -70,7 +70,7 @@ app = Flask(__name__)
 # Allow CORS for requests from your local server and the 0xelectron.ir domain
 CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5000", "https://0xelectron.ir"]}})
 
-# راه‌اندازی SocketIO با تنظیمات CORS متناسب
+# Initialize SocketIO with appropriate CORS settings
 socketio = SocketIO(app, cors_allowed_origins=["http://127.0.0.1:5000", "https://0xelectron.ir"])
 
 # Load configurations from config.py
@@ -245,7 +245,7 @@ def prompt_user():
         if answer == 'yes':
             open_electron()
         else:
-            url = f"http://127.0.0.1:{FLASK_PORT}/"
+            url = f"http://127.0.0.1:{FLASK_PORT}/live_console"
             logging.info(f"Opening browser to {url}...")
             webbrowser.open(url)
     except Exception as e:
@@ -318,6 +318,18 @@ def offline():
     return jsonify(response)
 
 # ----------------------------
+# Register Socket.IO Namespaces
+# ----------------------------
+
+def setup_socketio_namespaces(socketio):
+    """
+    Registers all Socket.IO namespaces.
+    """
+    from app.live_console.routes import PythonConsoleNamespace, TerminalNamespace
+    socketio.on_namespace(PythonConsoleNamespace('/python_console'))
+    socketio.on_namespace(TerminalNamespace('/terminal'))
+
+# ----------------------------
 # Main Execution
 # ----------------------------
 
@@ -325,6 +337,9 @@ def main():
     # Register signal handlers for graceful shutdown
     signal.signal(signal.SIGINT, shutdown_application)
     signal.signal(signal.SIGTERM, shutdown_application)
+
+    # Register Socket.IO namespaces
+    setup_socketio_namespaces(socketio)
 
     # Start Flask server in a separate daemon thread
     flask_thread = threading.Thread(target=start_flask, daemon=True)

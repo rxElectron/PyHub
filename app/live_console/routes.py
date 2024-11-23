@@ -1,35 +1,55 @@
 # -*- coding: utf-8 -*-
 # ----------------------------------------------------------------
-# PyHub/app/live_console/routes.py
-# ----------------------------------------------------------------
+# Copyright 2024    PyHub/app/live_console/routes.py 
 
-from flask import Blueprint, jsonify, request, render_template
+from flask import Blueprint, jsonify, request
 from flask_socketio import Namespace, emit
-import subprocess
-import threading
-import logging
+import subprocess, threading, logging 
 from RestrictedPython import compile_restricted
 from RestrictedPython.Guards import safe_builtins
-import io
-import contextlib
+from flask_socketio import SocketIO, emit
+
+from . import live_console
+from flask import render_template
+
+@live_console.route('/live_console')
+def live_console_page():
+    return render_template('live_console.html')
+
+# @live_console.route('/live_console')
+# def live_console_page():
+#     return render_template('live_console.html')
+
+# -*- coding: utf-8 -*-
+# ----------------------------------------------------------------
+# app/live_console/routes.py# app/live_console/routes.py
+
+from flask import Blueprint, request, jsonify, render_template
+import sys , io , contextlib , logging , os
 from pathlib import Path
 import datetime
 import base64
 
+# Initialize Blueprint
 live_console = Blueprint('live_console', __name__)
 
-# تنظیمات لاگ‌گیری
+# Logger Configuration
 logger = logging.getLogger(__name__)
 
-# تعریف built-ins مجاز
+# Define Allowed Built-ins for RestrictedPython
 allowed_builtins = {
     'print': print,
     'range': range,
     'len': len,
-    # افزودن سایر built-ins ایمن در صورت نیاز
+    'abs': abs,
+    'min': min,
+    'max': max,
+    'sum': sum,
+    # Add other safe built-ins as needed
 }
 
-# مسیرهای Flask
+# Flask Routes
+
 @live_console.route('/live_console')
 def live_console_page():
     return render_template('live_console.html')
@@ -88,15 +108,15 @@ def load_code():
     file_path = saved_codes_dir / filename
 
     if not file_path.exists():
-        return jsonify({'status': 'error', 'message': 'فایل یافت نشد.'}), 404
+        return jsonify({'status': 'error', 'message': 'File not found.'}), 404
 
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             code = f.read()
         return jsonify({'status': 'success', 'code': code})
     except Exception as e:
-        logger.error(f"بارگذاری کد ناموفق: {e}")
-        return jsonify({'status': 'error', 'message': 'بارگذاری کد ناموفق بود.'}), 500
+        logger.error(f"Failed to load code: {e}")
+        return jsonify({'status': 'error', 'message': 'Failed to load code.'}), 500
 
 @live_console.route('/load_file', methods=['GET'])
 def load_file():
@@ -105,7 +125,7 @@ def load_file():
     file_path = saved_codes_dir / filename
 
     if not file_path.exists():
-        return jsonify({'status': 'error', 'message': 'فایل یافت نشد.'}), 404
+        return jsonify({'status': 'error', 'message': 'File not found.'}), 404
 
     try:
         file_extension = file_path.suffix.lower()
@@ -124,12 +144,10 @@ def load_file():
         else:
             return jsonify({'status': 'error', 'message': 'Unsupported file type.'}), 400
     except Exception as e:
-        logger.error(f"بارگذاری فایل ناموفق: {e}")
-        return jsonify({'status': 'error', 'message': 'بارگذاری فایل ناموفق بود.'}), 500
+        logger.error(f"Failed to load file: {e}")
+        return jsonify({'status': 'error', 'message': 'Failed to load file.'}), 500
 
-# ----------------------------
-# Namespace های SocketIO
-# ----------------------------
+# Socket.IO Namespaces
 
 class PythonConsoleNamespace(Namespace):
     def on_connect(self):
@@ -142,7 +160,7 @@ class PythonConsoleNamespace(Namespace):
         code = data.get('code', '')
         logger.info(f"Executing Python code: {code}")
 
-        # محدود کردن محیط اجرای کد
+        # Restrict the execution environment
         restricted_globals = {
             '__builtins__': safe_builtins,
             '_print_': print,
@@ -175,54 +193,95 @@ class TerminalNamespace(Namespace):
             self.thread.join()
             self.thread = None
 
+    def on_start_terminal(self):
+        if self.process:
+            emit("terminal_output", "Terminal is already running.\n")
+            return
+
+        # Determine shell based on OS
+        shell = True if sys.platform.startswith('win') else False
+        shell_command = "cmd.exe" if sys.platform.startswith('win') else "/bin/bash"
+
+        try:
+            self.process = subprocess.Popen(
+                shell_command,
+                shell=shell,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                text=True,
+                bufsize=1,
+                universal_newlines=True
+            )
+            # Start a thread to read output
+            self.thread = threading.Thread(target=self.read_output)
+            self.thread.start()
+            emit("terminal_output", f"Started {shell_command}.\n")
+        except Exception as e:
+            emit("terminal_output", f"Error starting terminal: {e}\n")
+
+    def on_start_python(self):
+        if self.process:
+            emit("terminal_output", "A process is already running.\n")
+            return
+
+        # Start Python interpreter
+        python_command = "python" if sys.platform.startswith('win') else "python3"
+
+        try:
+            self.process = subprocess.Popen(
+                [python_command],
+                shell=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                text=True,
+                bufsize=1,
+                universal_newlines=True
+            )
+            # Start a thread to read output
+            self.thread = threading.Thread(target=self.read_output)
+            self.thread.start()
+            emit("terminal_output", f"Started Python interpreter.\n")
+        except Exception as e:
+            emit("terminal_output", f"Error starting Python: {e}\n")
+
     def on_execute_command(self, data):
         command = data.get('command', '')
-        logger.info(f"Executing system command: {command}")
-
-        if not self.process:
-            # تعیین شل مناسب بر اساس سیستم عامل
-            shell = True if sys.platform.startswith('win') else False
-            try:
-                self.process = subprocess.Popen(
-                    command,
-                    shell=shell,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    stdin=subprocess.PIPE,
-                    text=True,
-                    bufsize=1,
-                    universal_newlines=True
-                )
-                # شروع نخ برای خواندن خروجی
-                self.thread = threading.Thread(target=self.read_output)
-                self.thread.start()
-            except Exception as e:
-                emit('terminal_output', f"Error starting process: {e}\n")
-        else:
-            # ارسال دستور به ترمینال جاری
+        if self.process:
             try:
                 self.process.stdin.write(command + '\n')
                 self.process.stdin.flush()
             except Exception as e:
-                emit('terminal_output', f"Error sending command: {e}\n")
+                emit("terminal_output", f"Error sending command: {e}\n")
+        else:
+            emit("terminal_output", "No active process.\n")
 
     def read_output(self):
         try:
-            for line in self.process.stdout:
-                emit('terminal_output', line)
-            for line in self.process.stderr:
-                emit('terminal_output', line)
+            while True:
+                output = self.process.stdout.readline()
+                if output:
+                    emit('terminal_output', output)
+                else:
+                    break
+            # Read remaining stderr
+            stderr = self.process.stderr.read()
+            if stderr:
+                emit('terminal_output', stderr)
         except Exception as e:
             emit('terminal_output', f"Error reading output: {e}\n")
         finally:
             if self.process:
                 self.process.terminate()
                 self.process = None
-            if self.thread and self.thread.is_alive():
-                self.thread = None
             emit('terminal_output', "Process terminated.\n")
 
-# ثبت Namespace ها
+# Register Namespaces Function
 def register_socketio_namespaces(socketio):
     socketio.on_namespace(PythonConsoleNamespace('/python_console'))
     socketio.on_namespace(TerminalNamespace('/terminal'))
+
+# Register Namespaces
+def setup_socketio_namespaces(socketio):
+    register_socketio_namespaces(socketio)

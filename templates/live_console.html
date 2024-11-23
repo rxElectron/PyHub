@@ -6,7 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/live_consoleStyle.css') }}"> -->
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS for Flask and Electron -->
+  <!-- <link rel="stylesheet" type="text/css" href="../static/css/indexStyle.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/electroStyle.css"> -->
+  <link rel="stylesheet" type="text/css" href="../static/css/modals/logInStyle.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/modals/signUpStyle.css">
   <link rel="stylesheet" type="text/css" href="../static/css/live_consoleStyle.css">
 
   <!-- xterm.js CSS -->
@@ -17,6 +27,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/show-hint.min.css">
 
+  <!-- JavaScript for Flask and Electron -->
+  <script src="../static/js/indexScript.js" defer></script>
+  <script src="../static/js/modals/login.js" defer></script>
+  <script src="../static/js/modals/signup.js" defer></script>
+  <!-- <script src="../static/js/live_consoleScript.js" defer></script> -->
+
   <!-- xterm.js JS -->
   <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js" defer></script>
 
@@ -26,20 +42,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/show-hint.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/python-hint.min.js" defer></script>
 
-  <!-- SocketIO -->
+  <!-- Socket.IO -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"
     integrity="sha512-oV3mA0C2q8cFgZ1J0uBXvgH6hlY3bSOkJZdzfUUF2Z54+f2LQ69vj1u38AtA4mnV31jryUSXZjx1m/6b63k4ow=="
     crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 
-  <!-- Main JS -->
-  <!-- <script src="{{ url_for('static', filename='js/live_consoleScript.js') }}" defer></script> -->
-  <script src="../static/js/live_consoleScript.js"></script>
-
   <title>Live Console</title>
 </head>
 
+
 <body class="dark-mode">
   <div class="container">
+
     <div class="top-nav">
       <h1 class="python-hub">
         <svg width="54" height="52" viewBox="0 0 54 52" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,7 +132,9 @@
         <button class="back btn">Back</button>
       </div>
     </div>
+
     <div class="main">
+
       <div class="left-nav">
         <div class="menu">
           <button class="dashboard btn-icon">
@@ -209,8 +225,10 @@
                 stroke="#E2E2E2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
 
+
             <span>Support & Help</span>
           </button>
+
         </div>
         <button class="settings setting btn-icon">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -224,262 +242,151 @@
         </button>
       </div>
 
-      <div class="tab-container">
-        <ul class="tabs" id="tabs">
-          <li class="tab active" data-tab="tab-1">Python Console 1</li>
-        </ul>
+      <!-- <div class="tab-container">
         <div class="tab-content" id="tab-content">
-          <div class="tab-pane active" id="tab-1">
-            <!-- Python Console Content -->
-            <div class="sum-box">
-              <div class="box">
-                <div class="top">
-                  <span>
-                    <button class="reset-btn">
-                      <p>Py.Console</p>
-                    </button>
-                    <button class="reset-btn" onclick="closeTab('tab-1')">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="icons">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </span>
-                </div>
-                <div class="shell">
-                  <p>Python Interactive Shell</p>
-                  <div class="btns">
-                    <button class="w-btn">AI</button>
-                    <button class="w-btn" onclick="toggleEnhancer()">
-                      <!-- SVG مشابه -->
-                    </button>
-                  </div>
-                </div>
+          <div class="tab-pane active" id="tab-1"> -->
 
-                <form>
-                  <div id="editor-1" class="console-input"></div>
-                </form>
-                <div class="w-btns">
-                  <button class="w-btn" id="reset-btn-1">
-                    <!-- Reset Icon SVG -->
-                  </button>
-                  <div class="btns">
-                    <button class="w-btn btn1" id="execute-btn-1">Execute</button>
-                    <button class="w-btn" id="clear-btn-1">Clear</button>
-                    <button class="w-btn" id="save-btn-1">
-                      <!-- Save Icon SVG -->
-                    </button>
-                    <button class="w-btn" id="load-btn-1">Load</button>
-                  </div>
-                </div>
-                <div id="console-output-1" class="result"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button class="w-btn" id="new-tab-btn">+</button>
-      </div>
-
-
-      <!-- <div class="sum-box">
-
+      <!-- Live Console Section -->
+      <div class="sum-box">
         <div class="box">
-          <div class="top">
-            <span>
-              <button class="reset-btn">
+          <!-- Tabs Container -->
+          <div class="top" id="tabs-container">
+            <!-- Tabs Control Section -->
+            <!-- Py.Console Controls -->
+            <!-- <span>
+              <button class="reset-btn" onclick="addTab('Py.Console')">
                 <p>Py.Console</p>
               </button>
-              <button class="reset-btn">
-                <svg xmlnsW="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="icons">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
-
-              </button>
-            </span>
-            <span>
-              <button class="reset-btn">
-                <p>Terminal</p>
-              </button>
-
-              <button class="reset-btn">
+              <button class="reset-btn" onclick="removeAllTabs('Py.Console')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="icons">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
                 </svg>
               </button>
-            </span>
+            </span> -->
+
+            <!-- Terminal Controls -->
+            <!-- <span>
+              <button class="reset-btn" onclick="addTab('Terminal')">
+                <p>Terminal</p>
+              </button>
+              <button class="reset-btn" onclick="removeAllTabs('Terminal')">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="icons">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </span> -->
+
+            <!-- Dynamic Tabs Container -->
+            <!-- <div class="dynamic-tabs" id="dynamic-tabs">
+            </div> -->
+
+            <!-- 0xElectron Updated : all auto genrates with id now, we can reach them to close and read their code inside now also -->
+
           </div>
+
+          <!-- Active Tab Title and Controls -->
           <div class="shell">
-            <p>Python Interactive Shell</p>
-            <div class="btns">
+            <p id="active-console-title">No Active Console</p>
+
+            <div class="btns" id="tab-controls">
               <button class="w-btn">AI</button>
               <button class="w-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="icons">
                   <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                    d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15">
+                  </path>
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25">
+                  </path>
                 </svg>
+              </button>
+              <!-- Remove All Tabs Buttons -->
+              <button class="w-btn" onclick="removeAllTabs('Py.Console')">حذف همه Py.Consoleها</button>
+              <button class="w-btn" onclick="removeAllTabs('Terminal')">حذف همه Terminalها</button>
+            </div>
+          </div>
 
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
+          <!-- Python Console Input Form -->
+          <form>
+            <textarea id="python-console" class="console-input" placeholder="Type your Python code here..."
+              aria-label="Python Console"></textarea>
+          </form>
+
+          <!-- Action Buttons -->
+          <div class="w-btns">
+            <!-- Add New Console Button -->
+            <button class="w-btn" id="add-console-selector">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="icons">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+              </svg>
+            </button>
+            <!-- Execute and Clear Buttons -->
+            <div class="btns">
+              <button class="w-btn btn1" onclick="executeCurrentTab()">Execute</button>
+              <button class="w-btn" onclick="clearCurrentTab()">Clear</button>
+              <!-- Change Theme Color Button -->
+              <button class="w-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="icons">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 
+                      0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 
+                      12.75 21a9.753 9.753 0 0 0 9.002-5.998Z">
+                  </path>
                 </svg>
               </button>
             </div>
           </div>
 
-          <form>
-            <textarea id="python-console" class="console-input" placeholder="Type your Python code here..."
-              aria-label="Python Console"></textarea>
-          </form>
-          <div class="w-btns">
-            <button class="w-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="currentColor" class="icons">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
-            </button> -->
+          <!-- Result Display -->
+          <div class="result" id="result-output"></div>
 
-
-      <!-- <div class="btns"> -->
-      <!-- Execute Button with ID  -->
-      <!-- <button class="w-btn btn1" id="execute-btn">Execute</button> -->
-
-      <!-- Clear Button with ID -->
-      <!-- <button class="w-btn" id="clear-btn">Clear</button> -->
-
-      <!-- Toggle Theme Button with ID -->
-      <!-- <button class="w-btn" id="theme-toggle-btn"><svg xmlns="http://www.w3.org/2000/svg" fill="none" -->
-      viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icons">
-      <path stroke-linecap="round" stroke-linejoin="round"
-        d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-      <!-- </svg> -->
-      <!-- </button> -->
-
-      <!-- Save Button with ID -->
-      <!-- <button class="w-btn" id="save-btn"> -->
-      <!-- save icon SVG -->
-      <!-- </button> -->
-
-      <!-- Load Button with ID -->
-      <!-- <button class="w-btn" id="load-btn">Load</button> -->
-
-      <!-- </div> -->
-
-
-      <!-- </div> -->
-      <!-- Output Div with ID -->
-      <!-- <div id="console-output" class="result"></div> -->
-      <!-- </div>
-
-      </div>
-
-    </div>
-    <button class="w-btn" id="new-tab-btn">+</button>
-  </div>
-
-    </div>
-  -->
-    </div>
-  </div>
-
-
-  <!-- Empty divs to load modal content -->
-  <!-- Empty divs to load modal content -->
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="log-in-box">
-            <form id="login-form" class="login-form-fix">
-              <div>
-                <h3>Welcome back</h3>
-              </div>
-              <input type="text" id="login-username" placeholder="Username" class="input" required="">
-              <input type="password" id="login-password" placeholder="Password" class="input" required="">
-              <a href="/forgot-password">Forgot Password?</a>
-              <!-- <button type="submit" class="btn">Log In</button> -->
-              <svg width="158" height="93" viewBox="0 0 158 93" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g filter="url(#filter0_f_480_3)">
-                  <rect x="29" y="29" width="100" height="35" rx="17.5" fill="#154F48" />
-                </g>
-                <defs>
-                  <filter id="filter0_f_480_3" x="0" y="0" width="158" height="93" filterUnits="userSpaceOnUse"
-                    color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-                    <feGaussianBlur stdDeviation="14.5" result="effect1_foregroundBlur_480_3" />
-                  </filter>
-                </defs>
-              </svg>
-
-              <div id="login-message" class="message"></div>
-            </form>
-          </div>
         </div>
       </div>
+
+      <!-- <button class="w-btn" id="new-tab-btn">+</button> -->
+      <!-- Theme Toggle Button (if used) -->
+      <!-- <button class="w-btn" id="theme-toggle-btn">Toggle Theme</button> -->
+
     </div>
+
   </div>
 
-  <!-- Signup Modal -->
-  <div id="signup-modal" class="modal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="sign-up-box">
-            <form id="signup-form">
-              <div>
-                <h3>Create an account</h3>
-              </div>
-              <div class="inputs">
-                <input type="text" id="username" name="username" placeholder="Username" class="input" required />
-                <input type="email" id="email" name="email" placeholder="Email" class="input" required />
-                <input type="password" id="password" name="password" placeholder="Password" class="input" required />
-                <input type="password" id="verify-password" name="verify_password" placeholder="Verify Password"
-                  class="input" required />
-              </div>
-              <button type="submit" class="btn">Sign Up</button>
-              <div id="signup-message" class="message"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Include Libraries -->
+  <!-- CodeMirror CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+  <!-- CodeMirror JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <!-- CodeMirror Python Mode -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+  <!-- CodeMirror Addons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/closebrackets.min.js"></script>
 
-  <script>
-    // Toggle modal visibility with modal ID
-    function toggleModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal.classList.contains("visible")) {
-        closeModal(modalId);
-      } else {
-        showModal(modalId);
-      }
-    }
+  <!-- xterm.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/4.19.0/xterm.min.css" />
 
-    // Show modal
-    function showModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.classList.add("visible");
-    }
+  <!-- xterm.js JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/4.19.0/xterm.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/4.19.0/addons/fit/fit.min.js"></script>
 
-    // Close modal
-    function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.classList.remove("visible");
-    }
+  <!-- Socket.IO JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
 
-    // Close modal when clicking outside of the modal dialog
-    document.querySelectorAll(".modal").forEach((modal) => {
-      modal.addEventListener("click", function (event) {
-        // Check if the click is outside the .modal-dialog
-        if (!event.target.closest(".modal-dialog")) {
-          closeModal(modal.id);
-        }
-      });
-    });
-  </script>
+  <!-- PyHub Custom JavaScripts -->
+  <!-- <script src="../static/js/live_consoleScript.js"></script> -->
+  <script src="../static/js/live_console/add_terminals.js"></script>
+  <script src="../static/js/live_console/tab_manager.js"></script>
+  <script src="../static/js/modals/sign_modals.js"></script>
+
+  <!-- Terminal Manager JS -->
+  <script src="../static/js/live_console/terminal_manager.js"></script>
+  
+</body>
+
 </body>
 
 </html>

@@ -12,12 +12,164 @@ FONT SIZE SYSTEM (px)
   box-sizing: border-box;
 }
 
+.tab.active {
+  border-bottom: 2px solid #3498db;
+  background-color: #f1f1f1;
+}
+
+
+.active {
+  border-bottom: 2px solid #3498db;
+  background-color: #f1f1f1;
+}
+
+
+/* در live_consoleStyle.css */
+
+.tab-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: inherit;
+  position: relative;
+}
+
+.tabs {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: #2d2d2d;
+}
+
+.tab {
+  padding: 0.5rem 1rem;
+  background-color: #1e1e1e;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+.tab.active {
+  /* background-color: #3e3e3e; */
+  background-color: rgba(120, 146, 141, 0.61);
+}
+
+.tab-content {
+  flex-grow: 1;
+  position: relative;
+}
+
+.tab-pane {
+  display: none;
+  height: 100%;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+#new-tab-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #1e1e1e;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+}
+
+/* در فایل CSS اصلی (live_consoleStyle.css) */
+
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* تنظیمات CodeMirror */
+.CodeMirror {
+  height: auto;
+  border: 1px solid #ccc;
+}
+
+/* تنظیم تم‌های CodeMirror */
+.CodeMirror.cm-s-dracula {
+  background-color: #282a36;
+  color: #f8f8f2;
+}
+
+.CodeMirror.cm-s-default {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* تنظیمات CodeMirror */
+.CodeMirror {
+  height: auto;
+  border: 1px solid #ccc;
+}
+
+/* تنظیم تم‌های CodeMirror */
+.CodeMirror.cm-s-dracula {
+  background-color: #282a36;
+  color: #f8f8f2;
+}
+
+.CodeMirror.cm-s-default {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+
+
+
 /* ------------------------ */
 /* GENERAL STYLES */
 /* ------------------------ */
+:root {
+  /* Colors */
+  --bg-dark: #154f48;
+  --bg-light: #ffffff;
+  --text-primary: #d4d4d4;
+  --text-secondary: #e2e2e2;
+
+  /* Spacings */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+
+  /* Fonts */
+  --font-family: "Inter", sans-serif;
+  --font-size-base: 1rem;
+}
+
 body {
-  font-family: "Inter", sans-serif;
-  background-color: #154f48;
+  font-family: var(--font-family);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
   padding: 0.5rem 0.75rem;
   height: 100vh;
 }
@@ -286,7 +438,8 @@ h3 p {
   border-radius: 0.5rem;
   border: #154f48 solid 0.1rem;
   margin-top: 1rem;
-  margin: auto 0.5rem;
+  /* margin: auto 0.5rem; */
+  margin: 1rem 0.5rem;
 }
 .box > form {
   display: flex;
@@ -330,9 +483,20 @@ input:focus {
   display: flex;
   gap: 0.5rem;
   margin-left: 0.5rem;
+
+  display: flex;
+    gap: 0.5rem;
+    margin-left: 0.5rem;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+
 }
 .top span {
-  background-color: rgba(120, 146, 141, 0.61);
+  background-color: #3e3e3e;
+  /* background-color: rgba(120, 146, 141, 0.61); */
   display: flex;
   align-items: center;
   border-top-left-radius: 0.5rem;
@@ -404,119 +568,106 @@ input:focus {
 }
 
 
-
-
-/* در live_consoleStyle.css */
-
-.tab-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.result {
+  height: 14.5rem;
+  background-color: rgba(34, 34, 34, 1);
+  overflow-y: auto;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--text-secondary);
+  font-size: var(--font-size-base);
 }
 
-.tabs {
-  list-style: none;
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  background-color: #2d2d2d;
+.result .output {
+  color: var(--text-primary);
+}
+
+.result .error {
+  color: red;
+  font-weight: bold;
+}
+
+.btn {
+  background-color: var(--bg-dark);
+  color: var(--text-secondary);
+  border: none;
+  border-radius: var(--spacing-sm);
+  height: 2.25rem;
+  padding: 0 var(--spacing-md);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: var(--bg-light);
+  color: var(--bg-dark);
+}
+.btn-icon {
+  transition: transform 0.2s ease;
+}
+
+.btn-icon:hover {
+  transform: scale(1.05);
 }
 
 .tab {
-  padding: 0.5rem 1rem;
-  background-color: #1e1e1e;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  color: #fff;
+  transition: background-color 0.3s ease;
 }
 
-.tab.active {
-  background-color: #3e3e3e;
+.tab:hover {
+  background-color: var(--bg-light);
+  color: var(--bg-dark);
+}
+body.light-mode {
+  background-color: var(--bg-light);
+  color: var(--bg-dark);
 }
 
-.tab-content {
-  flex-grow: 1;
-  position: relative;
+.tab.light-mode {
+  background-color: var(--bg-light);
 }
 
-.tab-pane {
+.tab-content.light-mode {
+  background-color: var(--text-secondary);
+}
+.btn:focus,
+.tab:focus {
+  outline: 2px dashed var(--text-secondary);
+  outline-offset: 2px;
+}
+.modal {
   display: none;
-  height: 100%;
-}
-
-.tab-pane.active {
-  display: block;
-}
-
-#new-tab-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background-color: #1e1e1e;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #2d2d2d;
   color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  cursor: pointer;
-  font-size: 1.5rem;
-  line-height: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.modal-content {
   text-align: center;
 }
 
-/* در فایل CSS اصلی (live_consoleStyle.css) */
-
-body.dark-mode {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
+.modal-content h2 {
+  margin-bottom: 1rem;
 }
 
-body.light-mode {
-  background-color: #ffffff;
-  color: #000000;
+.modal-content button {
+  background-color: #16564e;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
 }
 
-/* تنظیمات CodeMirror */
-.CodeMirror {
-  height: auto;
-  border: 1px solid #ccc;
+.modal-content button:hover {
+  background-color: #1a7c62;
 }
 
-/* تنظیم تم‌های CodeMirror */
-.CodeMirror.cm-s-dracula {
-  background-color: #282a36;
-  color: #f8f8f2;
-}
-
-.CodeMirror.cm-s-default {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-body.dark-mode {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-}
-
-body.light-mode {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-/* تنظیمات CodeMirror */
-.CodeMirror {
-  height: auto;
-  border: 1px solid #ccc;
-}
-
-/* تنظیم تم‌های CodeMirror */
-.CodeMirror.cm-s-dracula {
-  background-color: #282a36;
-  color: #f8f8f2;
-}
-
-.CodeMirror.cm-s-default {
-  background-color: #ffffff;
-  color: #000000;
-}
